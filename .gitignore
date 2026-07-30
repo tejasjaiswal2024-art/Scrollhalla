@@ -1,0 +1,37 @@
+# Dependency directories
+node_modules/
+jspm_packages/
+web_modules/
+backend/node_modules/
+frontend/node_modules/
+
+# Environment & Secret files
+.env
+.env.*
+ghpat.txt
+*.pem
+*.key
+
+# Build & Compiled artifacts
+dist/
+build/
+out/
+.next/
+backend/dist/
+frontend/dist/
+*.log
+*.tmp
+*.bak
+
+# Explicitly ignore docs directory & assignment files as specified
+docs/
+*.docx
+*.pdf
+scratch_docx_content.txt
+
+# OS / Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+.gemini/

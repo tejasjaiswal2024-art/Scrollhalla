@@ -1,0 +1,92 @@
+version: '3.8'
+
+services:
+  # Database Service (PostgreSQL)
+  postgres:
+    image: postgres:15-alpine
+    container_name: scrollhalla-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: scrollhalla_db
+      POSTGRES_USER: scrollhalla_user
+      POSTGRES_PASSWORD: scrollhalla_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U scrollhalla_user -d scrollhalla_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - scrollhalla-net
+
+  # Cache Service (Redis)
+  redis:
+    image: redis:7-alpine
+    container_name: scrollhalla-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - scrollhalla-net
+
+  # Backend Service (Node.js API & Background Cron Worker)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: scrollhalla-backend
+    restart: always
+    environment:
+      PORT: 8080
+      NODE_ENV: production
+      DATABASE_URL: postgres://scrollhalla_user:scrollhalla_password@postgres:5432/scrollhalla_db
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      JWT_SECRET: scrollhalla_production_jwt_secret_2026
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"require('http').get('http://localhost:8080/health', (r) => { if (r.statusCode !== 200) process.exit(1); })\""]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - scrollhalla-net
+
+  # Frontend Service (Vite React + Nginx Reverse Proxy)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: scrollhalla-frontend
+    restart: always
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - scrollhalla-net
+
+networks:
+  scrollhalla-net:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:
