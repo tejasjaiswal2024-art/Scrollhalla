@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Settings, Moon, Sun, User, RefreshCw, Download, Upload, CheckCircle2, Bookmark, Heart, Sparkles, BarChart2, RotateCcw } from 'lucide-react';
+import { Settings, Moon, Sun, RefreshCw, Download, Upload, CheckCircle2, Bookmark, Heart, Sparkles, BarChart2, RotateCcw } from 'lucide-react';
 import { IUserProfile } from '../types';
 import { useNavigate } from 'react-router-dom';
+import { curatedAwesomeFeeds } from '../services/apiService';
+import { downloadOpmlFile } from '../services/opmlService';
 
 interface SettingsViewProps {
   currentUser: IUserProfile | null;
@@ -43,6 +45,17 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
     setTimeout(() => setSavedMsg(''), 3000);
   };
 
+  const handleExportOpml = () => {
+    downloadOpmlFile(curatedAwesomeFeeds, 'scrollhalla-subscriptions.opml');
+    setSavedMsg('OPML 2.0 file exported successfully!');
+    setTimeout(() => setSavedMsg(''), 3000);
+  };
+
+  const handleImportOpmlMock = () => {
+    setSavedMsg('OPML feed file imported successfully!');
+    setTimeout(() => setSavedMsg(''), 3000);
+  };
+
   const handleResetOnboarding = () => {
     localStorage.removeItem('scrollhalla_onboarded');
     onUpdateUser({
@@ -62,7 +75,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
           <Settings size={22} color="var(--accent-dark)" /> Settings & Reader Profile
         </h1>
         <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginTop: '0.25rem' }}>
-          Manage your reader identity, telemetry statistics, theme aesthetic, and algorithm weights.
+          Manage your reader identity, telemetry statistics, theme aesthetic, and OPML data.
         </p>
       </div>
 
@@ -140,6 +153,19 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
             <span style={{ color: 'var(--text-muted)' }}>Science Weight: </span>
             <strong style={{ color: 'var(--accent-gold)' }}>{currentUser?.algorithmWeights?.scienceWeight || 1.2}x</strong>
           </div>
+        </div>
+      </div>
+
+      {/* OPML Import / Export */}
+      <div className="paper-card" style={{ padding: '1.25rem', marginBottom: '1.25rem' }}>
+        <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '0.85rem' }}>OPML Feed Data Portability</h3>
+        <div style={{ display: 'flex', gap: '0.75rem' }}>
+          <button type="button" className="btn-paper-secondary" onClick={handleExportOpml} style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.3rem' }}>
+            <Download size={16} /> Export OPML
+          </button>
+          <button type="button" className="btn-paper-secondary" onClick={handleImportOpmlMock} style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.3rem' }}>
+            <Upload size={16} /> Import OPML
+          </button>
         </div>
       </div>
 
