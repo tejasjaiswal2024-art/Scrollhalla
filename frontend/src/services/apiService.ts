@@ -37,23 +37,105 @@ export const mockTasksData = [
       { id: 'CMT-3', author: 'Agile Coach', text: 'Great algorithm inspired by Xikipedia dynamic ranking!', timestamp: new Date().toISOString() }
     ],
     createdAt: new Date(Date.now() - 10 * 24 * 3600 * 1000).toISOString()
+  }
+];
+
+export const curatedAwesomeFeeds: IRssSubscription[] = [
+  { id: 'SUB-1', title: 'Reuters World News', feedUrl: 'https://www.reutersagency.com/feed/?best-topics=world-news', category: 'World News', itemCount: 45, icon: '🌐', createdAt: new Date().toISOString() },
+  { id: 'SUB-2', title: 'BBC News World', feedUrl: 'http://feeds.bbci.co.uk/news/world/rss.xml', category: 'World News', itemCount: 60, icon: '🌍', createdAt: new Date().toISOString() },
+  { id: 'SUB-3', title: 'The Hindu Top Stories', feedUrl: 'https://www.thehindu.com/feeder/default.rss', category: 'India & World', itemCount: 35, icon: '📰', createdAt: new Date().toISOString() },
+  { id: 'SUB-4', title: 'NDTV Top Stories', feedUrl: 'https://feeds.feedburner.com/ndtvnews-top-stories', category: 'India & World', itemCount: 40, icon: '📺', createdAt: new Date().toISOString() },
+  { id: 'SUB-5', title: 'Hacker News RSS', feedUrl: 'https://news.ycombinator.com/rss', category: 'Tech & Engineering', itemCount: 30, icon: '💻', createdAt: new Date().toISOString() },
+  { id: 'SUB-6', title: 'TechCrunch', feedUrl: 'https://techcrunch.com/feed/', category: 'Tech & Startups', itemCount: 25, icon: '🚀', createdAt: new Date().toISOString() },
+  { id: 'SUB-7', title: 'Ars Technica', feedUrl: 'http://feeds.arstechnica.com/arstechnica/index', category: 'Tech & Science', itemCount: 20, icon: '🔬', createdAt: new Date().toISOString() },
+  { id: 'SUB-8', title: 'MIT Technology Review', feedUrl: 'https://www.technologyreview.com/feed/', category: 'Science & AI', itemCount: 15, icon: '🤖', createdAt: new Date().toISOString() },
+  { id: 'SUB-9', title: 'Reddit r/technology RSS', feedUrl: 'https://www.reddit.com/r/technology/.rss', category: 'Tech & Engineering', itemCount: 50, icon: '👾', createdAt: new Date().toISOString() }
+];
+
+export const sampleArticlesList: IRssArticle[] = [
+  {
+    id: 'ART-101',
+    title: 'Reuters World News: Global Economic Telemetry & Trade Outlook 2026',
+    link: 'https://www.reuters.com',
+    content: 'Global supply chains stabilize as new digital infrastructure standards reduce cross-border clearance latency. Central banks report positive inflation convergence metrics.',
+    pubDate: new Date(Date.now() - 2 * 3600 * 1000).toISOString(),
+    harvestDate: new Date().toISOString(),
+    feedType: 'RSS',
+    sourceTitle: 'Reuters World News',
+    category: 'World News',
+    estimatedReadTimeMinutes: 4,
+    isBookmarked: false,
+    isLiked: false
   },
   {
-    id: 'TASK-103',
-    title: 'Sprint Risk Score Telemetry Ingestion',
-    description: 'Fetch external GitHub RSS feeds and dynamically calculate deployment risk percentage.',
-    status: 'TO_DO',
-    moscow: 'SHOULD_HAVE',
-    storyPoints: 5,
-    assignee: 'Aarav Sharma',
-    views: 28,
-    commentCount: 1,
-    daysInBacklog: 3,
-    priorityScore: 92.4,
-    comments: [
-      { id: 'CMT-4', author: 'DevOps Lead', text: 'Add resilience fallback when RSS is offline.', timestamp: new Date().toISOString() }
-    ],
-    createdAt: new Date(Date.now() - 3 * 24 * 3600 * 1000).toISOString()
+    id: 'ART-102',
+    title: 'BBC News: Breakthrough Solar Storage Grid Deployed in Southern Europe',
+    link: 'https://www.bbc.com/news',
+    content: 'Next-generation solid-state energy storage facilities reach 94% round-trip efficiency in municipal trials across Spain and Portugal.',
+    pubDate: new Date(Date.now() - 4 * 3600 * 1000).toISOString(),
+    harvestDate: new Date().toISOString(),
+    feedType: 'RSS',
+    sourceTitle: 'BBC News World',
+    category: 'World News',
+    estimatedReadTimeMinutes: 3,
+    isBookmarked: false,
+    isLiked: true
+  },
+  {
+    id: 'ART-103',
+    title: 'The Hindu: ISRO Announces Mission Parameters for Advanced Telemetry Satellite',
+    link: 'https://www.thehindu.com',
+    content: 'India space agency confirms successful static engine tests for upcoming geostationary payload designed for high-resolution oceanographic monitoring.',
+    pubDate: new Date(Date.now() - 6 * 3600 * 1000).toISOString(),
+    harvestDate: new Date().toISOString(),
+    feedType: 'RSS',
+    sourceTitle: 'The Hindu',
+    category: 'India & World',
+    estimatedReadTimeMinutes: 5,
+    isBookmarked: true,
+    isLiked: true
+  },
+  {
+    id: 'ART-104',
+    title: 'Hacker News: Building Distributed Zero-Latency RSS Aggregators with Redis',
+    link: 'https://news.ycombinator.com',
+    content: 'An architectural review on pairing node-cron background feed harvesters with Redis in-memory caches to serve millions of concurrent readers under 50ms.',
+    pubDate: new Date(Date.now() - 8 * 3600 * 1000).toISOString(),
+    harvestDate: new Date().toISOString(),
+    feedType: 'ATOM',
+    sourceTitle: 'Hacker News RSS',
+    category: 'Tech & Engineering',
+    estimatedReadTimeMinutes: 6,
+    isBookmarked: true,
+    isLiked: true
+  },
+  {
+    id: 'ART-105',
+    title: 'TechCrunch: Open Source AI Foundation Models Achieve Real-Time Inference Efficiency',
+    link: 'https://techcrunch.com',
+    content: 'New quantized model architectures enable 70B parameter LLMs to run locally on consumer workstations with under 4GB memory bandwidth overhead.',
+    pubDate: new Date(Date.now() - 12 * 3600 * 1000).toISOString(),
+    harvestDate: new Date().toISOString(),
+    feedType: 'RSS',
+    sourceTitle: 'TechCrunch',
+    category: 'Tech & Startups',
+    estimatedReadTimeMinutes: 4,
+    isBookmarked: false,
+    isLiked: false
+  },
+  {
+    id: 'ART-106',
+    title: 'NDTV: Tech Hub Expansion Accelerates Digital Infrastructure Growth',
+    link: 'https://www.ndtv.com',
+    content: 'Major technology parks report record high hiring velocity for full-stack engineers and DevOps specialists specializing in containerized cloud infrastructure.',
+    pubDate: new Date(Date.now() - 18 * 3600 * 1000).toISOString(),
+    harvestDate: new Date().toISOString(),
+    feedType: 'RSS',
+    sourceTitle: 'NDTV Top Stories',
+    category: 'India & World',
+    estimatedReadTimeMinutes: 3,
+    isBookmarked: false,
+    isLiked: false
   }
 ];
 
@@ -69,9 +151,6 @@ export const removeAuthToken = (): void => {
   localStorage.removeItem('scrollhalla_jwt');
 };
 
-/**
- * Register User
- */
 export const registerUser = async (email: string, password: string, name: string) => {
   try {
     const res = await fetch(`${API_BASE}/auth/register`, {
@@ -87,9 +166,6 @@ export const registerUser = async (email: string, password: string, name: string
   }
 };
 
-/**
- * Login User
- */
 export const loginUser = async (email: string, password: string) => {
   try {
     const res = await fetch(`${API_BASE}/auth/login`, {
@@ -121,50 +197,21 @@ export const fetchFeedTimeline = async (): Promise<IRssArticle[]> => {
     const res = await fetch(`${API_BASE}/feed`, { headers });
     if (!res.ok) throw new Error('API request failed');
     const json = await res.json();
-    
-    // Add estimated read time
-    return (json.data || []).map((art: IRssArticle) => {
-      const words = (art.content || art.title || '').split(/\s+/).length;
-      const readTime = Math.max(1, Math.ceil(words / 200));
-      return { ...art, estimatedReadTimeMinutes: readTime };
-    });
+
+    if (json.data && json.data.length > 0) {
+      return json.data.map((art: IRssArticle) => {
+        const words = (art.content || art.title || '').split(/\s+/).length;
+        const readTime = Math.max(1, Math.ceil(words / 200));
+        return {
+          ...art,
+          estimatedReadTimeMinutes: readTime,
+          pubDate: art.pubDate || new Date().toISOString()
+        };
+      });
+    }
+    return sampleArticlesList;
   } catch (err) {
-    console.warn('[apiService] Using fallback timeline items:', err);
-    return [
-      {
-        id: 'ART-1',
-        title: 'Building Resilient Microservices with Node.js & Redis',
-        link: 'https://dev.to',
-        content: 'Learn how to architect high-performance distributed systems using Node.js, Express, and Redis caching layers for zero latency.',
-        pubDate: new Date(Date.now() - 3600 * 1000).toISOString(),
-        feedType: 'RSS',
-        sourceTitle: 'DEV Community',
-        estimatedReadTimeMinutes: 4,
-        isBookmarked: true
-      },
-      {
-        id: 'ART-2',
-        title: 'GitHub Incident Telemetry & System Status Updates',
-        link: 'https://www.githubstatus.com',
-        content: 'GitHub Actions and Webhooks performance degradation resolved. All systems operating nominally.',
-        pubDate: new Date(Date.now() - 7200 * 1000).toISOString(),
-        feedType: 'RSS',
-        sourceTitle: 'GitHub System Status',
-        estimatedReadTimeMinutes: 2,
-        isBookmarked: false
-      },
-      {
-        id: 'ART-3',
-        title: 'Object-Oriented Analysis & Design Patterns in Modern Web Apps',
-        link: 'https://news.ycombinator.com',
-        content: 'Discussion on leveraging clean architecture, domain-driven design, and the Factory Pattern for modular software systems.',
-        pubDate: new Date(Date.now() - 14400 * 1000).toISOString(),
-        feedType: 'ATOM',
-        sourceTitle: 'Hacker News RSS',
-        estimatedReadTimeMinutes: 5,
-        isBookmarked: false
-      }
-    ];
+    return sampleArticlesList;
   }
 };
 

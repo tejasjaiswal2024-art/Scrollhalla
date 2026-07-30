@@ -54,8 +54,19 @@ export interface IUserProfile {
   email?: string;
   role: string;
   token?: string;
+  onboarded?: boolean;
+  selectedInterestTags?: string[];
+  articlesReadCount?: number;
+  savedArticlesCount?: number;
+  likedArticlesCount?: number;
+  algorithmWeights?: {
+    techWeight: number;
+    newsWeight: number;
+    designWeight: number;
+    scienceWeight: number;
+  };
   uiSettings?: {
-    theme: 'dark' | 'light';
+    theme: 'dark' | 'light' | 'paper';
     density: 'compact' | 'comfortable';
   };
 }
@@ -66,11 +77,14 @@ export interface IRssArticle {
   title: string;
   link: string;
   content: string;
-  pubDate: string;
+  pubDate: string; // Original published date from feed
+  harvestDate?: string; // Time fetched by background worker
   feedType: 'RSS' | 'ATOM';
   sourceTitle: string;
+  category?: string;
   estimatedReadTimeMinutes?: number;
   isBookmarked?: boolean;
+  isLiked?: boolean;
 }
 
 export interface IRssSubscription {
@@ -79,5 +93,6 @@ export interface IRssSubscription {
   feedUrl: string;
   category?: string;
   itemCount?: number;
+  icon?: string;
   createdAt: string;
 }
