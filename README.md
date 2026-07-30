@@ -75,7 +75,7 @@ To deliver a zero-latency, distraction-free RSS aggregator and Agile workflow hu
 
 ---
 
-## 🚀 Quick Start – How to Run
+## 🚀 Quick Start – Local Development
 
 ### Prerequisites
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running.
@@ -148,6 +148,21 @@ cd frontend
 npm install
 npm run dev
 ```
+
+---
+
+## 🛠️ Local Development Tools Documented
+
+| Local Development Tool | Purpose & Technical Role |
+|---|---|
+| **Docker & Docker Compose** | Orchestrates containerized PostgreSQL, Redis, Node backend, and Nginx frontend services. |
+| **Vite** | Lightning-fast HMR bundler for React single-page frontend applications. |
+| **Node.js & Express** | Runtime environment and REST API framework hosting business logic endpoints. |
+| **TypeScript** | Static type safety across both frontend React components and backend API services. |
+| **Prisma ORM** | Type-safe PostgreSQL client managing database migrations and queries. |
+| **Redis & ioredis** | In-memory caching engine serving harvested RSS timeline payloads under 50ms latency. |
+| **node-cron** | Background worker task scheduler harvesting external RSS/Atom channels every 15 minutes. |
+| **Nginx** | Production multi-stage web server and reverse proxy serving static frontend builds on port 3000. |
 
 ---
 
