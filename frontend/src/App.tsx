@@ -11,14 +11,30 @@ import { IRssArticle, IUserProfile } from './types';
 import { fetchFeedTimeline } from './services/apiService';
 
 export function App() {
-  const [currentUser, setCurrentUser] = useState<IUserProfile | null>({
-    name: 'Tejas Jaiswal',
-    email: 'engineer@scrollhalla.io',
-    role: 'Senior Software Engineer'
+  // Read stored user profile and onboarding status from localStorage
+  const [currentUser, setCurrentUser] = useState<IUserProfile | null>(() => {
+    const savedUser = localStorage.getItem('scrollhalla_user');
+    const isOnboarded = localStorage.getItem('scrollhalla_onboarded') === 'true';
+    if (savedUser) {
+      const parsed = JSON.parse(savedUser);
+      return { ...parsed, onboarded: isOnboarded };
+    }
+    return {
+      name: 'Tejas Jaiswal',
+      email: 'tejas.jaiswal2024@vitstudent.ac.in',
+      role: 'Senior Software Engineer',
+      onboarded: isOnboarded,
+      selectedInterestTags: ['tech', 'news', 'ai', 'india'],
+      articlesReadCount: 3,
+      savedArticlesCount: 2,
+      likedArticlesCount: 2,
+      algorithmWeights: { techWeight: 1.5, newsWeight: 1.4, designWeight: 1.3, scienceWeight: 1.2 }
+    };
   });
 
   const [selectedArticle, setSelectedArticle] = useState<IRssArticle | null>(null);
-  const [bookmarkedArticleIds, setBookmarkedArticleIds] = useState<string[]>(['ART-1']);
+  const [bookmarkedArticleIds, setBookmarkedArticleIds] = useState<string[]>(['ART-103', 'ART-104']);
+  const [likedArticleIds, setLikedArticleIds] = useState<string[]>(['ART-102', 'ART-103', 'ART-104']);
   const [timelineArticles, setTimelineArticles] = useState<IRssArticle[]>([]);
 
   useEffect(() => {
@@ -38,56 +54,99 @@ export function App() {
     }
   };
 
+  const handleToggleLike = (articleId: string) => {
+    if (likedArticleIds.includes(articleId)) {
+      setLikedArticleIds(prev => prev.filter(id => id !== articleId));
+    } else {
+      setLikedArticleIds(prev => [...prev, articleId]);
+    }
+  };
+
+  const handleCompleteOnboarding = (user: IUserProfile) => {
+    setCurrentUser(user);
+  };
+
   const bookmarkedArticles = timelineArticles
     .filter(a => bookmarkedArticleIds.includes(a.id))
     .map(a => ({ ...a, isBookmarked: true }));
+
+  // Check if onboarding is completed
+  const isOnboarded = currentUser?.onboarded === true;
 
   return (
     <BrowserRouter>
       <div className="app-container">
         <main style={{ flex: 1 }}>
           <Routes>
-            <Route path="/onboarding" element={<OnboardingView />} />
+            {/* Onboarding Screen */}
+            <Route
+              path="/onboarding"
+              element={<OnboardingView onCompleteOnboarding={handleCompleteOnboarding} />}
+            />
 
+            {/* Main Reels Reading Timeline */}
             <Route
               path="/timeline"
               element={
-                <MainTimelineView
-                  onOpenArticle={setSelectedArticle}
-                  onToggleBookmark={handleToggleBookmark}
-                />
+                !isOnboarded ? (
+                  <Navigate to="/onboarding" replace />
+                ) : (
+                  <MainTimelineView
+                    onOpenArticle={setSelectedArticle}
+                    onToggleBookmark={handleToggleBookmark}
+                    onToggleLike={handleToggleLike}
+                    likedArticleIds={likedArticleIds}
+                    bookmarkedArticleIds={bookmarkedArticleIds}
+                  />
+                )
               }
             />
 
-            <Route path="/explore" element={<ExploreView />} />
+            {/* Explore RSS Directory */}
+            <Route
+              path="/explore"
+              element={!isOnboarded ? <Navigate to="/onboarding" replace /> : <ExploreView />}
+            />
 
+            {/* Saved Bookmarks List */}
             <Route
               path="/bookmarks"
               element={
-                <BookmarksView
-                  bookmarkedArticles={bookmarkedArticles}
-                  onOpenArticle={setSelectedArticle}
-                  onToggleBookmark={handleToggleBookmark}
-                />
+                !isOnboarded ? (
+                  <Navigate to="/onboarding" replace />
+                ) : (
+                  <BookmarksView
+                    bookmarkedArticles={bookmarkedArticles}
+                    onOpenArticle={setSelectedArticle}
+                    onToggleBookmark={handleToggleBookmark}
+                  />
+                )
               }
             />
 
+            {/* Settings & Reader Profile */}
             <Route
               path="/settings"
               element={
-                <SettingsView
-                  currentUser={currentUser}
-                  onUpdateUser={setCurrentUser}
-                />
+                !isOnboarded ? (
+                  <Navigate to="/onboarding" replace />
+                ) : (
+                  <SettingsView
+                    currentUser={currentUser}
+                    onUpdateUser={setCurrentUser}
+                    savedArticlesCount={bookmarkedArticleIds.length}
+                    likedArticlesCount={likedArticleIds.length}
+                  />
+                )
               }
             />
 
-            <Route path="*" element={<Navigate to="/timeline" replace />} />
+            <Route path="*" element={<Navigate to={isOnboarded ? "/timeline" : "/onboarding"} replace />} />
           </Routes>
         </main>
 
-        {/* Bottom Mobile Navigation Bar */}
-        <Navbar />
+        {/* Bottom Mobile Navigation Bar (Shown when onboarded) */}
+        {isOnboarded && <Navbar />}
 
         {/* Screen 5: Distraction-Free Reading / Focus View Modal */}
         {selectedArticle && (
