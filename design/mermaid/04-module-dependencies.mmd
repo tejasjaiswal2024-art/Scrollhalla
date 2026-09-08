@@ -1,0 +1,63 @@
+flowchart TB
+
+  subgraph L1["Layer 1 — Routing"]
+    routes["routes/api.ts<br/>composition root, injects controllers"]
+  end
+
+  subgraph L2["Layer 2 — Controllers (HTTP boundary)"]
+    ac["AuthController"]
+    fc["FeedController"]
+    tc["TaskController"]
+    sbc["SmartBacklogController"]
+    src["SprintRiskController"]
+    tmc["TeamController"]
+  end
+
+  subgraph L3["Layer 3 — Domain services (no HTTP types)"]
+    sbs["SmartBacklogService"]
+    srs["SprintRiskService"]
+  end
+
+  subgraph L4["Layer 4 — Domain model (pure, no I/O)"]
+    task["Task"]
+    bi["BacklogItem"]
+  end
+
+  subgraph L5["Layer 5 — Infrastructure adapters"]
+    cache["CacheService (Redis)"]
+    prisma["Prisma client (PostgreSQL)"]
+    parsers["Parser hierarchy + Factory"]
+  end
+
+  routes --> ac
+  routes --> fc
+  routes --> tc
+  routes --> sbc
+  routes --> src
+  routes --> tmc
+
+  sbc --> sbs
+  src --> srs
+  tmc --> tc
+  sbc --> tc
+
+  sbs --> bi
+  sbs --> task
+  bi --> task
+
+  ac --> prisma
+  fc --> cache
+  fc --> parsers
+  srs --> parsers
+
+  classDef l1 fill:#2D2D2D,stroke:#2D2D2D,color:#F4F1EA
+  classDef l2 fill:#F4F1EA,stroke:#8C6B40,color:#2D2D2D
+  classDef l3 fill:#E8E4D8,stroke:#8C6B40,color:#2D2D2D
+  classDef l4 fill:#FAF8F5,stroke:#2D2D2D,stroke-width:2px,color:#2D2D2D
+  classDef l5 fill:#FFFFFF,stroke:#949088,stroke-dasharray:4 3,color:#2D2D2D
+
+  class routes l1
+  class ac,fc,tc,sbc,src,tmc l2
+  class sbs,srs l3
+  class task,bi l4
+  class cache,prisma,parsers l5
