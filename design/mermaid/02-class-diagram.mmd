@@ -1,0 +1,97 @@
+classDiagram
+    direction TB
+
+    class IFeedItem {
+        <<interface>>
+        +string id
+        +string title
+        +string link
+        +string content
+        +string pubDate
+        +string feedType
+        +string sourceTitle
+    }
+
+    class BaseParser {
+        <<abstract>>
+        #string parserName
+        +BaseParser(parserName)
+        +parse(feedUrl) Promise
+    }
+
+    class RssParser {
+        -Parser rssClient
+        +parse(feedUrl) Promise
+    }
+
+    class AtomParser {
+        -Parser atomClient
+        +parse(feedUrl) Promise
+    }
+
+    class FeedParserFactory {
+        <<factory>>
+        +createParser(formatOrUrl)$ BaseParser
+    }
+
+    class FeedCronWorker {
+        +executeFeedHarvest()$ Promise
+        +startCronJob()$ void
+    }
+
+    class CacheService {
+        -Redis client
+        -boolean isConnected
+        +get(key) Promise
+        +set(key, value, ttl) Promise
+    }
+
+    class Task {
+        +string id
+        +string title
+        +TaskStatus status
+        +MoscowPriority moscow
+        +number storyPoints
+        +number views
+        +IComment[] comments
+        +incrementViews() void
+        +addComment(author, text) IComment
+        +getDaysInBacklog() number
+    }
+
+    class BacklogItem {
+        +Task task
+        +number views
+        +number commentCount
+        +number daysInBacklog
+        +number moscowWeight
+        +number priorityScore
+        +getMoscowWeight(priority)$ number
+        +toJSON() object
+    }
+
+    class SmartBacklogService {
+        -ISmartBacklogConfig config
+        +calculatePriorityScore(item) number
+        +getRankedBacklog(tasks) BacklogItem[]
+    }
+
+    class SprintRiskService {
+        -Parser parser
+        -string rssUrl
+        +fetchAndCalculateRisk() Promise
+        -analyzeFeedItems(items, src) IRiskAssessment
+        -getFallbackRiskAssessment() IRiskAssessment
+    }
+
+    BaseParser <|-- RssParser : extends
+    BaseParser <|-- AtomParser : extends
+    BaseParser ..> IFeedItem : produces
+    FeedParserFactory ..> BaseParser : returns
+    FeedParserFactory ..> RssParser : instantiates
+    FeedParserFactory ..> AtomParser : instantiates
+    FeedCronWorker ..> FeedParserFactory : uses
+    FeedCronWorker ..> CacheService : writes timeline
+    BacklogItem o-- Task : wraps
+    SmartBacklogService ..> BacklogItem : scores
+    SmartBacklogService ..> Task : ranks

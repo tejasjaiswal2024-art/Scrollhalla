@@ -1,0 +1,44 @@
+flowchart TB
+
+  subgraph client["Client Tier — container: scrollhalla-frontend"]
+    spa["Vite React SPA<br/>E-Reader theme, mobile-first"]
+    nginx["Nginx<br/>static host + /api reverse proxy<br/>host 3000 to container 80"]
+  end
+
+  subgraph api["Application Tier — container: scrollhalla-backend"]
+    express["Express REST API<br/>port 8080"]
+    guard["JWT Auth Guard<br/>authMiddleware"]
+    ctrls["Controllers<br/>Auth, Feed, Task, SmartBacklog,<br/>SprintRisk, Team"]
+    svcs["Domain Services<br/>SmartBacklogService, SprintRiskService"]
+    factory["FeedParserFactory<br/>RssParser | AtomParser"]
+    worker["Feed Cron Worker<br/>node-cron every 15 min"]
+  end
+
+  subgraph data["Data Tier"]
+    redis[("Redis 7<br/>key scrollhalla:timeline:global<br/>TTL 1800s")]
+    memfb["In-memory fallback cache<br/>degraded mode"]
+    pg[("PostgreSQL 15<br/>users, subscriptions,<br/>articles, bookmarks")]
+  end
+
+  ext["External RSS / Atom publishers<br/>GitHub Status, Hacker News, DEV"]
+
+  spa -->|"HTTPS REST + Bearer JWT"| nginx
+  nginx -->|"proxy /api/"| express
+  express --> guard
+  guard --> ctrls
+  ctrls --> svcs
+  ctrls -->|"read-through cache"| redis
+  redis -.->|"on connection failure"| memfb
+  ctrls -->|"Prisma ORM"| pg
+  worker -->|"scheduled trigger"| factory
+  factory -->|"HTTP GET feed XML"| ext
+  worker -->|"write normalised timeline JSON"| redis
+  worker -->|"read subscriptions"| pg
+  svcs -->|"risk telemetry feed"| ext
+
+  classDef tier fill:#F4F1EA,stroke:#8C6B40,stroke-width:1.5px,color:#2D2D2D
+  classDef store fill:#E8E4D8,stroke:#8C6B40,stroke-width:1.5px,color:#2D2D2D
+  classDef outside fill:#FFFFFF,stroke:#949088,stroke-dasharray:4 3,color:#2D2D2D
+  class spa,nginx,express,guard,ctrls,svcs,factory,worker tier
+  class redis,pg,memfb store
+  class ext outside
