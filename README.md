@@ -170,6 +170,8 @@ npm run dev
 
 Scrollhalla is built as a **five-layer architecture** (routing → controllers → domain services → domain model → infrastructure adapters) in which dependencies only ever point downward, so the scoring rules that define the product can be reasoned about and tested without Express, Redis, or PostgreSQL in scope. Feed ingestion is closed to modification but open to extension through an **abstract `BaseParser` and a `FeedParserFactory`** — supporting a new syndication format means adding one subclass, touching no caller. Throughput comes from **inverting the read path**: a background cron worker does all parsing and network I/O ahead of time and writes a normalised timeline into Redis, so a user request is reduced to a single cache read, with an in-memory fallback that keeps the app serving when Redis is absent.
 
+📄 **Full Software Design Document:** [`design/Scrollhalla_DA2_Software_Design_Document.docx`](design/Scrollhalla_DA2_Software_Design_Document.docx)
+
 ### Diagrams
 
 | Diagram | Editable source | PNG export |
