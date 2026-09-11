@@ -35,3 +35,10 @@ Thumbs.db
 .vscode/
 .idea/
 .gemini/
+
+# --- Digital Assignment 2: Design deliverables (must be tracked) ---
+# The `docs/`, `*.pdf` and `*.docx` rules above would otherwise swallow the
+# DA2 design folder. `design/` is not matched by `docs/`, so only the
+# blanket file-extension rules need explicit exceptions here.
+!design/**/*.pdf
+!design/**/*.docx

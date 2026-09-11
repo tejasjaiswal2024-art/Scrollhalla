@@ -1,0 +1,43 @@
+sequenceDiagram
+    autonumber
+    actor U as Reader
+    participant SPA as React SPA
+    participant NX as Nginx proxy
+    participant FC as FeedController
+    participant CS as CacheService
+    participant W as FeedCronWorker
+    participant FF as FeedParserFactory
+    participant P as RssParser / AtomParser
+    participant EXT as External RSS feed
+
+    rect rgb(244, 241, 234)
+    note over W, EXT: Background harvest — runs every 15 minutes, off the request path
+    W->>FF: createParser(feedUrl)
+    FF-->>W: BaseParser subclass
+    W->>P: parse(feedUrl)
+    P->>EXT: HTTP GET feed XML
+    EXT-->>P: RSS 2.0 / Atom 1.0 document
+    P-->>W: IFeedItem[] (normalised)
+    W->>W: sort by pubDate desc
+    W->>CS: set(timeline:global, json, ttl 1800s)
+    end
+
+    rect rgb(232, 228, 216)
+    note over U, CS: Read path — cache hit, no parsing, no external I/O
+    U->>SPA: open timeline
+    SPA->>NX: GET /api/feed
+    NX->>FC: proxy request
+    FC->>CS: get(timeline:global)
+    CS-->>FC: cached JSON
+    FC-->>SPA: 200 {source: REDIS_CACHE_HIT, latencyMs}
+    SPA-->>U: render feed
+    end
+
+    rect rgb(250, 248, 245)
+    note over FC, CS: Cold-start fallback — cache miss degrades to on-demand harvest
+    FC->>CS: get(timeline:global)
+    CS-->>FC: null
+    FC->>W: executeFeedHarvest()
+    W-->>FC: IFeedItem[]
+    FC-->>SPA: 200 {source: ON_DEMAND_HARVEST}
+    end

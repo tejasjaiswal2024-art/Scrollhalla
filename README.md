@@ -166,6 +166,53 @@ npm run dev
 
 ---
 
+## 🎨 Software Design
+
+Scrollhalla is built as a **five-layer architecture** (routing → controllers → domain services → domain model → infrastructure adapters) in which dependencies only ever point downward, so the scoring rules that define the product can be reasoned about and tested without Express, Redis, or PostgreSQL in scope. Feed ingestion is closed to modification but open to extension through an **abstract `BaseParser` and a `FeedParserFactory`** — supporting a new syndication format means adding one subclass, touching no caller. Throughput comes from **inverting the read path**: a background cron worker does all parsing and network I/O ahead of time and writes a normalised timeline into Redis, so a user request is reduced to a single cache read, with an in-memory fallback that keeps the app serving when Redis is absent.
+
+📄 **Full Software Design Document:** [`design/Scrollhalla_DA2_Software_Design_Document.docx`](design/Scrollhalla_DA2_Software_Design_Document.docx)
+
+### Diagrams
+
+| Diagram | Editable source | PNG export |
+|---|---|---|
+| Architecture / deployment view | [`01-architecture.mmd`](design/mermaid/01-architecture.mmd) | [PNG](design/png/01-architecture.png) |
+| Class diagram (OOAD model) | [`02-class-diagram.mmd`](design/mermaid/02-class-diagram.mmd) | [PNG](design/png/02-class-diagram.png) |
+| Sequence — feed harvest & cached read | [`03-sequence-feed.mmd`](design/mermaid/03-sequence-feed.mmd) | [PNG](design/png/03-sequence-feed.png) |
+| Module dependency layers | [`04-module-dependencies.mmd`](design/mermaid/04-module-dependencies.mmd) | [PNG](design/png/04-module-dependencies.png) |
+
+Sources are plain-text Mermaid so they diff cleanly in review; diagrams.net can import any of them directly via **Arrange → Insert → Advanced → Mermaid** if an editable `.drawio` is required.
+
+#### System Architecture
+![Scrollhalla architecture](design/png/01-architecture.png)
+
+#### OOAD Class Model
+![Scrollhalla class diagram](design/png/02-class-diagram.png)
+
+#### Feed Harvest & Cached Read
+![Feed sequence diagram](design/png/03-sequence-feed.png)
+
+#### Module Dependency Layers
+![Module dependency layers](design/png/04-module-dependencies.png)
+
+### User Interface Design
+
+The six screens and the underlying design-system board live in [`design/screens/`](design/screens/).
+
+| # | Screen | Asset |
+|---|---|---|
+| — | Design system — colour, type & component tokens | [`00-design-system.png`](design/screens/00-design-system.png) |
+| 1 | Onboarding — interest tag selection | [`01-onboarding.png`](design/screens/01-onboarding.png) |
+| 2 | Main reading feed — vertical article stream | [`02-reading-feed.jpg`](design/screens/02-reading-feed.jpg) |
+| 3 | Explore — curated RSS discovery | [`03-explore.jpg`](design/screens/03-explore.jpg) |
+| 4 | Saved articles — bookmark library | [`04-saved-articles.png`](design/screens/04-saved-articles.png) |
+| 5 | Article reader — distraction-free focus view | [`05-article-reader.jpg`](design/screens/05-article-reader.jpg) |
+| 6 | Settings & profile — theme, typography, OPML | [`06-settings-profile.png`](design/screens/06-settings-profile.png) |
+
+The interface is driven by a small token set — four colours (`#2D2D2D`, `#E8E4D8`, `#2E2D2B`, `#F4F1EA`) and three type roles (Headline / Body / Label) — which is why every screen reads as one product despite being assembled separately. Reading surfaces use a warm paper ground and serif body text to lower eye strain, while controls stay monochrome so nothing competes with the article itself.
+
+---
+
 ## 📁 Repository Directory Structure
 
 ```
@@ -238,6 +285,14 @@ Scrollhalla/
 │   └── vite.config.js
 ├── database/
 │   └── init.sql                  # PostgreSQL database initialization & seed script
+├── design/                       # DA2 design deliverables
+│   ├── mermaid/                  # Editable diagram sources (.mmd)
+│   │   ├── 01-architecture.mmd   # Container / deployment view
+│   │   ├── 02-class-diagram.mmd  # OOAD class model
+│   │   ├── 03-sequence-feed.mmd  # Harvest, cached read, cold-start fallback
+│   │   └── 04-module-dependencies.mmd # Five-layer dependency direction
+│   ├── png/                      # 2x DPI PNG exports of each diagram
+│   └── screens/                  # Six UI screens + design-system token board
 ├── .gitignore                    # Excludes docs/, node_modules/, secrets, etc.
 ├── docker-compose.yml            # Multi-container orchestration (postgres, redis, backend, frontend)
 ├── ARCHITECTURE.md               # System Architecture Diagram (Mermaid)
