@@ -6,11 +6,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
   :root { --ink:#2D2D2D; --paper:#FFFFFF; --rule:#8C6B40; --muted:#5A5650; --tint:#F4F1EA; }
-  @page { size: A4; margin: 20mm 18mm 20mm 18mm; }
+  @page { size: A4; margin: 12mm 12mm 14mm 12mm; }
   html, body { background: var(--paper); color: var(--ink); }
   body { font-family: 'Century Gothic', 'Didact Gothic', 'URW Gothic', sans-serif; font-size: 10.5pt; line-height: 1.5; margin: 0; }
   /* page border repeated on every printed page (matches DA1/DA2 format) */
-  .page-border { position: fixed; top: -10mm; left: -8mm; right: -8mm; bottom: -10mm; border: 1.5pt solid var(--ink); pointer-events: none; }
+  .page-border { position: fixed; top: 0; left: 0; right: 0; bottom: 0; border: 1.5pt solid var(--ink); pointer-events: none; }
   h1, h2, h3, h4 { font-weight: 700; color: var(--ink); break-after: avoid; }
   h1 { font-size: 18pt; margin: 0 0 6pt; border-bottom: 1.5pt solid var(--rule); padding-bottom: 4pt; break-before: page; }
   h1.first { break-before: auto; }
@@ -33,7 +33,7 @@
   code { background: var(--tint); padding: 0 2pt; }
   pre { background: #1E1E1E; color: #E6E6E6; padding: 7pt 9pt; border-radius: 3pt; white-space: pre-wrap; break-inside: avoid; line-height: 1.38; margin: 5pt 0 10pt; }
   pre .c { color: #8A8A8A; } pre .k { color: #6EA8FE; } pre .s { color: #5FD38D; }
-  .label { font-size: 8.5pt; color: var(--muted); margin: 6pt 0 -2pt; font-weight: 700; }
+  .label { break-after: avoid; font-size: 8.5pt; color: var(--muted); margin: 6pt 0 -2pt; font-weight: 700; }
   .note { border-left: 3pt solid var(--rule); background: var(--tint); padding: 5pt 9pt; margin: 6pt 0 10pt; break-inside: avoid; }
   .kpi { display: flex; gap: 6pt; margin: 6pt 0 12pt; break-inside: avoid; }
   .kpi div { flex: 1; border: .8pt solid var(--ink); padding: 5pt; text-align: center; }
@@ -46,10 +46,14 @@
   .cover .title { font-size: 17pt; font-weight: 700; margin: 0 0 4pt; }
   .cover .meta { font-size: 11.5pt; line-height: 1.8; margin-top: 26pt; }
   .toc { break-before: page; } .toc ol { line-height: 1.75; } .toc li { margin: 0; }
+  table.frame { border: 0; margin: 0; width: 100%; } table.frame > thead > tr > td, table.frame > tfoot > tr > td { border: 0; height: 8mm; padding: 0; background: none !important; }
+  table.frame > tbody > tr > td.inner { border: 0; padding: 0 8mm; background: none !important; }
+  table.frame > tbody > tr { break-inside: auto; }
 </style>
 </head>
 <body>
 <div class="page-border"></div>
+<table class="frame"><thead><tr><td></td></tr></thead><tfoot><tr><td></td></tr></tfoot><tbody><tr><td class="inner">
 
 <section class="cover">
   <h1>Software Engineering</h1>
@@ -633,5 +637,6 @@ testing was the most informative of the levels. Besides measuring the suite, it 
 and three blind spots that coverage figures had hidden. The system builds and runs end-to-end on PostgreSQL and
 Redis with live feeds. Twenty of twenty-three user stories are complete, and the remaining three are recorded with
 their current state.</p>
+</td></tr></tbody></table>
 </body>
 </html>
