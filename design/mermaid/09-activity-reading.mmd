@@ -1,0 +1,19 @@
+flowchart TB
+  start((" ")) --> a1{"Onboarded?<br/>(localStorage flag)"}
+  a1 -- no --> a2["Enter name / email"] --> a3["Select interest tags"] --> a4["Pick seed RSS channels"] --> a5["Complete Setup & Start Reading"]
+  a5 --> a6
+  a1 -- yes --> a6["GET /api/feed"]
+  a6 --> a7{"Redis key<br/>present?"}
+  a7 -- hit --> a9["Render Reels-style timeline"]
+  a7 -- miss --> a8["On-demand harvest:<br/>Factory → Parser → cache"] --> a9
+  a9 --> a10{"Reader action"}
+  a10 -- like --> a11["Toggle like<br/>(tunes weights)"] --> a9
+  a10 -- save --> a12["Toggle bookmark"] --> a9
+  a10 -- read --> a13["Reader View<br/>(font size, theme)"] --> a9
+  a10 -- share --> a14["Web Share / copy link"] --> a9
+  a10 -- leave --> stop(((" ")))
+
+  classDef dec fill:#E8E4D8,stroke:#8C6B40,color:#2D2D2D
+  classDef act fill:#F4F1EA,stroke:#2D2D2D,color:#2D2D2D
+  class a1,a7,a10 dec
+  class a2,a3,a4,a5,a6,a8,a9,a11,a12,a13,a14 act

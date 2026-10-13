@@ -1,0 +1,27 @@
+flowchart LR
+  dev["git push / PR<br/>feature/**"] --> gh{{"GitHub Actions<br/>ci.yml"}}
+
+  subgraph be["Job: backend"]
+    b1["npm ci"] --> b2["build<br/>prisma generate + tsc"] --> b3["unit<br/>74 tests"] --> b4["integration<br/>23 tests"] --> b5["regression<br/>14 tests + 10 snapshots"] --> b6["coverage<br/>lcov artifact"]
+  end
+  subgraph mu["Job: mutation"]
+    m1["Stryker<br/>489 mutants"] --> m2{"score ≥ 60%?"}
+  end
+  subgraph fe["Job: frontend"]
+    f1["vitest<br/>OPML export"] --> f2["vite build<br/>dist artifact"]
+  end
+  subgraph dk["Job: docker"]
+    d1["docker compose build<br/>4 services"]
+  end
+
+  gh --> be & fe
+  be --> mu
+  be & fe --> dk
+  m2 -- no --> fail(["❌ pipeline fails"])
+  m2 -- yes --> ok(["✅ mergeable → main → tag vX.Y.Z"])
+  dk --> ok
+
+  classDef job fill:#F4F1EA,stroke:#8C6B40,color:#2D2D2D
+  classDef gate fill:#2D2D2D,stroke:#2D2D2D,color:#F4F1EA
+  class b1,b2,b3,b4,b5,b6,m1,f1,f2,d1 job
+  class gh,m2 gate

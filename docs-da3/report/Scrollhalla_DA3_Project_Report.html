@@ -1,0 +1,637 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Scrollhalla DA3 Report</title>
+<link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --ink:#2D2D2D; --paper:#FFFFFF; --rule:#8C6B40; --muted:#5A5650; --tint:#F4F1EA; }
+  @page { size: A4; margin: 20mm 18mm 20mm 18mm; }
+  html, body { background: var(--paper); color: var(--ink); }
+  body { font-family: 'Century Gothic', 'Didact Gothic', 'URW Gothic', sans-serif; font-size: 10.5pt; line-height: 1.5; margin: 0; }
+  /* page border repeated on every printed page (matches DA1/DA2 format) */
+  .page-border { position: fixed; top: -10mm; left: -8mm; right: -8mm; bottom: -10mm; border: 1.5pt solid var(--ink); pointer-events: none; }
+  h1, h2, h3, h4 { font-weight: 700; color: var(--ink); break-after: avoid; }
+  h1 { font-size: 18pt; margin: 0 0 6pt; border-bottom: 1.5pt solid var(--rule); padding-bottom: 4pt; break-before: page; }
+  h1.first { break-before: auto; }
+  h2 { font-size: 13.5pt; margin: 16pt 0 4pt; border-bottom: .6pt solid #C9C3B6; padding-bottom: 2pt; }
+  h3 { font-size: 11.5pt; margin: 12pt 0 3pt; }
+  p { margin: 4pt 0 7pt; text-align: justify; }
+  ul, ol { margin: 3pt 0 8pt; padding-left: 18pt; } li { margin: 1.5pt 0; }
+  figure { margin: 8pt 0 12pt; text-align: center; break-inside: avoid; }
+  figure img { max-width: 100%; max-height: 205mm; border: .5pt solid #C9C3B6; }
+  figure.tall img { max-height: 225mm; }
+  figure.half img { max-width: 62%; }
+  figcaption { font-size: 9pt; color: var(--muted); margin-top: 3pt; font-style: italic; }
+  .row { display: flex; gap: 6pt; justify-content: center; break-inside: avoid; }
+  .row figure { flex: 1; margin: 4pt 0 10pt; } .row figure img { max-height: 120mm; }
+  table { width: 100%; border-collapse: collapse; margin: 6pt 0 12pt; font-size: 9pt; break-inside: auto; }
+  th, td { border: .6pt solid #9C9588; padding: 3pt 5pt; vertical-align: top; text-align: left; }
+  th { background: var(--ink); color: #F4F1EA; font-weight: 700; }
+  tr { break-inside: avoid; } tbody tr:nth-child(even) td { background: #FAF8F5; }
+  code, pre { font-family: 'JetBrains Mono', monospace; font-size: 8.3pt; }
+  code { background: var(--tint); padding: 0 2pt; }
+  pre { background: #1E1E1E; color: #E6E6E6; padding: 7pt 9pt; border-radius: 3pt; white-space: pre-wrap; break-inside: avoid; line-height: 1.38; margin: 5pt 0 10pt; }
+  pre .c { color: #8A8A8A; } pre .k { color: #6EA8FE; } pre .s { color: #5FD38D; }
+  .label { font-size: 8.5pt; color: var(--muted); margin: 6pt 0 -2pt; font-weight: 700; }
+  .note { border-left: 3pt solid var(--rule); background: var(--tint); padding: 5pt 9pt; margin: 6pt 0 10pt; break-inside: avoid; }
+  .kpi { display: flex; gap: 6pt; margin: 6pt 0 12pt; break-inside: avoid; }
+  .kpi div { flex: 1; border: .8pt solid var(--ink); padding: 5pt; text-align: center; }
+  .kpi b { display: block; font-size: 15pt; } .kpi span { font-size: 8pt; color: var(--muted); }
+  .ok { color: #1F7A3F; font-weight: 700; } .part { color: #A86A00; font-weight: 700; } .no { color: #A23B3B; font-weight: 700; }
+  /* cover */
+  .cover { height: 245mm; display: flex; flex-direction: column; justify-content: center; text-align: center; }
+  .cover h1 { border: 0; font-size: 26pt; break-before: auto; margin-bottom: 2pt; }
+  .cover .sub { font-size: 14pt; margin: 2pt 0 26pt; }
+  .cover .title { font-size: 17pt; font-weight: 700; margin: 0 0 4pt; }
+  .cover .meta { font-size: 11.5pt; line-height: 1.8; margin-top: 26pt; }
+  .toc { break-before: page; } .toc ol { line-height: 1.75; } .toc li { margin: 0; }
+</style>
+</head>
+<body>
+<div class="page-border"></div>
+
+<section class="cover">
+  <h1>Software Engineering</h1>
+  <div class="sub">Digital Assignment – 3 / Review – 3</div>
+  <p class="title" style="text-align:center">Project Title: Scrollhalla: E-Reader RSS Feed</p>
+  <p style="text-align:center">Testing · Version Management · System Building · Final Project Report</p>
+  <div class="meta">
+    By Tejas Jaiswal (24BAI1264) &amp;<br>Dhananjay Shankar (24BAI1298)<br><br>
+    Submitted to Dr. Alok Chauhan<br><br>
+    GitHub: <b>https://github.com/tejasjaiswal2024-art/Scrollhalla</b>
+  </div>
+</section>
+
+<section class="toc">
+  <h2 style="border:0">Contents</h2>
+  <p><b>Part A — Review 3 submission</b></p>
+  <ol>
+    <li>Integration, Regression and Mutation Testing</li>
+    <li>Version Management and System Building</li>
+    <li>Screenshots of Developed Functionalities</li>
+    <li>Tools and Technologies Used</li>
+    <li>Demo Plan</li>
+  </ol>
+  <p><b>Part B — Project Report</b></p>
+  <ol start="6">
+    <li>Problem Statement</li>
+    <li>User Stories</li>
+    <li>System Architecture and System Design</li>
+    <li>Design of Tests</li>
+  </ol>
+  <p><b>Appendix</b></p>
+  <ol type="A">
+    <li>Software Requirements Specification (SRS)</li>
+    <li>Data Flow Diagrams (Level 0 and Level 1)</li>
+    <li>Entity Relationship Diagram</li>
+    <li>UML Diagrams</li>
+    <li>Code Listing and GitHub Link</li>
+  </ol>
+</section>
+
+<!-- ============================ PART A ============================ -->
+
+<h1>1. Integration, Regression and Mutation Testing</h1>
+<p>Until this review the repository had no automated tests. For DA3 a four-level test suite was built around the
+backend's existing layered structure (routes → controllers → services → domain models → infrastructure adapters),
+plus a frontend unit suite. All suites run with one command per level and in CI on every push.</p>
+
+<div class="kpi">
+  <div><b>116</b><span>automated tests<br>(111 backend + 5 frontend)</span></div>
+  <div><b>92.3%</b><span>backend line coverage<br>(87.1% branch)</span></div>
+  <div><b>86.2% → 96.5%</b><span>mutation score<br>(Stryker, 489 mutants)</span></div>
+  <div><b>10</b><span>regression snapshots<br>(API contract + golden master)</span></div>
+</div>
+
+<table>
+  <thead><tr><th style="width:17%">Level</th><th style="width:16%">Tool</th><th>What it exercises</th><th style="width:10%">Tests</th><th style="width:18%">Command</th></tr></thead>
+  <tbody>
+    <tr><td>Unit</td><td>Jest + ts-jest</td><td>Task, BacklogItem, SmartBacklogService, SprintRiskService, RssParser, AtomParser, FeedParserFactory, CacheService fallback, JWT middleware — each in isolation, network stubbed.</td><td>74</td><td><code>npm run test:unit</code></td></tr>
+    <tr><td>Integration</td><td>Jest + supertest</td><td>The real Express app end-to-end through router, controllers, services and models. Only Layer-5 adapters (Prisma, Redis, outbound HTTP) are replaced by in-memory fakes.</td><td>23</td><td><code>npm run test:integration</code></td></tr>
+    <tr><td>Regression</td><td>Jest snapshots</td><td>Status code + response shape of every endpoint, the ranking of the seed backlog (golden master), and previously-identified edge cases.</td><td>14</td><td><code>npm run test:regression</code></td></tr>
+    <tr><td>Mutation</td><td>Stryker Mutator</td><td>Injects 489 small faults into models, services, parsers, middleware and controllers and checks that the suite above detects each one.</td><td>489 mutants</td><td><code>npm run test:mutation</code></td></tr>
+    <tr><td>Frontend unit</td><td>Vitest</td><td>OPML 2.0 export: envelope, one outline per feed, category default, XML escaping of all five special characters.</td><td>5</td><td><code>npm test</code> (frontend)</td></tr>
+  </tbody>
+</table>
+
+<h2>1.1 Unit testing</h2>
+<p>Unit tests pin the business rules that the rest of the system depends on: the default values of a
+<code>Task</code>, the MoSCoW weight table, the exact Smart Backlog scoring formula, the severity classification and
+risk thresholds of the Sprint Risk service, and the normalisation each parser performs. The RSS client is replaced by a
+shared stub so no test touches the network.</p>
+<figure class="tall"><img src="../screenshots/terminal/01-unit-tests.png"><figcaption>Figure 1 — Unit suite: 74 tests across 8 suites, all passing.</figcaption></figure>
+
+<h2>1.2 Integration testing</h2>
+<p>The integration suite drives the real application over HTTP with <code>supertest</code>. The composition root in
+<code>routes/api.ts</code> is left untouched, so the test also verifies that dependency injection wires the controllers
+correctly — for instance, that a task created through <code>/api/tasks</code> is visible to the Smart Backlog and Team
+controllers, which share the same <code>TaskController</code> instance. Five integration scenarios are covered:</p>
+<ul>
+  <li><b>Task CRUD flow</b> — create, read (view counter increments), update, comment, delete, and 404 on every verb afterwards.</li>
+  <li><b>Cross-controller</b> — a high-engagement task rises to the top of <code>/api/smart-backlog</code>; reassignment changes team workload.</li>
+  <li><b>Feed pipeline</b> — cold cache triggers on-demand harvest through Factory → Parser → Cache; the second request is a <code>REDIS_CACHE_HIT</code>; one failing publisher does not break the timeline.</li>
+  <li><b>Sprint risk</b> — the endpoint degrades to the resilience fallback when the status feed is offline.</li>
+  <li><b>Auth flow</b> — register → duplicate refused → login → protected profile with bcrypt and JWT; identical 401 for wrong password and unknown user.</li>
+</ul>
+<figure class="tall"><img src="../screenshots/terminal/02-integration-tests.png"><figcaption>Figure 2 — Integration suite: 23 tests across the full request path.</figcaption></figure>
+
+<p class="label">Listing 1 — Integration tests replace only the infrastructure adapters (backend/tests/integration/api.int.test.ts)</p>
+<pre><span class="c">// Integration: real Express app → router → controllers → services → models.
+// Only Layer-5 adapters (Prisma, Redis, outbound HTTP) are replaced.</span>
+jest.mock(<span class="s">'../../src/config/prisma'</span>, () =&gt; require(<span class="s">'../helpers/mockInfra'</span>).prismaModuleMock());
+jest.mock(<span class="s">'../../src/config/redis'</span>,  () =&gt; require(<span class="s">'../helpers/mockInfra'</span>).cacheModuleMock());
+jest.mock(<span class="s">'rss-parser'</span>, () =&gt; require(<span class="s">'../helpers/rssParserMock'</span>).rssParserModuleMock());
+
+it(<span class="s">'cold cache: harvests on demand, merges feeds newest-first, then serves from cache'</span>, <span class="k">async</span> () =&gt; {
+  <span class="k">const</span> first = <span class="k">await</span> request(app).get(<span class="s">'/api/feed'</span>);
+  expect(first.body).toMatchObject({ success: <span class="k">true</span>, source: <span class="s">'ON_DEMAND_HARVEST'</span>, count: 3 });
+  <span class="k">const</span> second = <span class="k">await</span> request(app).get(<span class="s">'/api/feed'</span>);
+  expect(second.body.source).toBe(<span class="s">'REDIS_CACHE_HIT'</span>);
+  expect(parseURL).toHaveBeenCalledTimes(3);   <span class="c">// no second harvest</span>
+});</pre>
+
+<h2>1.3 Regression testing</h2>
+<p>The regression pack protects behaviour that users and the frontend already rely on. <b>REG-01</b> snapshots the
+status code and the <i>shape</i> of every endpoint's response — volatile values such as IDs and timestamps are reduced
+to their type so the snapshot only changes when the contract changes. <b>REG-02</b> is a golden master of the seeded
+backlog ranking. <b>REG-03</b> pins edge cases: the documented <code>storyPoints: 0 → 3</code> coercion, the 100% cap on
+team utilisation, non-enumerating login errors, and malformed JSON being handled by the global error handler.</p>
+<figure><img src="../screenshots/terminal/03-regression-tests.png"><figcaption>Figure 3 — Regression pack: 14 tests, 10 snapshots matched.</figcaption></figure>
+
+<p class="label">Listing 2 — Contract snapshot that ignores volatile values (backend/tests/regression/api-contract.reg.test.ts)</p>
+<pre><span class="c">/** Replace volatile values (ids, timestamps, latencies) with their type so snapshots are stable. */</span>
+<span class="k">const</span> shape = (v: any): any =&gt; {
+  <span class="k">if</span> (Array.isArray(v)) <span class="k">return</span> v.length ? [shape(v[0])] : [];
+  <span class="k">if</span> (v &amp;&amp; <span class="k">typeof</span> v === <span class="s">'object'</span>) <span class="k">return</span> Object.fromEntries(Object.keys(v).sort().map(k =&gt; [k, shape(v[k])]));
+  <span class="k">return typeof</span> v;
+};
+it.each([[<span class="s">'GET'</span>, <span class="s">'/health'</span>], [<span class="s">'GET'</span>, <span class="s">'/api/tasks'</span>], [<span class="s">'GET'</span>, <span class="s">'/api/smart-backlog'</span>], <span class="c">/* … 9 endpoints */</span>])(<span class="s">'%s %s'</span>, <span class="k">async</span> (_m, url) =&gt; {
+  <span class="k">const</span> r = <span class="k">await</span> request(app).get(url);
+  expect({ status: r.status, body: shape(r.body) }).toMatchSnapshot();
+});</pre>
+
+<h2>1.4 Coverage</h2>
+<figure><img src="../screenshots/terminal/04-coverage.png"><figcaption>Figure 4 — Istanbul coverage across all backend source files.</figcaption></figure>
+<figure><img src="../screenshots/terminal/11-coverage-html-report.png"><figcaption>Figure 5 — HTML coverage report (uploaded as a CI artifact on every run).</figcaption></figure>
+
+<h2>1.5 Mutation testing</h2>
+<p>Line coverage only shows that code <i>ran</i>; it does not show that a test would fail if the code were wrong.
+Stryker answers that question by generating mutants — <code>&gt;=</code> turned into <code>&gt;</code>, <code>||</code> into
+<code>&amp;&amp;</code>, a string emptied, a branch forced to <code>true</code> — and re-running the suite against each one.
+A mutant that no test notices <i>survives</i> and marks a weak spot.</p>
+<figure><img src="../screenshots/terminal/05-mutation-baseline.png"><figcaption>Figure 6 — Baseline run: 86.17% mutation score, 65 surviving mutants.</figcaption></figure>
+<p>The baseline run surfaced four real problems, each fixed in a separate commit:</p>
+<table>
+  <thead><tr><th style="width:24%">Surviving mutants</th><th>What they revealed</th><th style="width:28%">Action</th></tr></thead>
+  <tbody>
+    <tr><td>15 in <code>FeedParserFactory</code> RSS condition</td><td>Every mutation of the RSS branch survived because the branch was <b>unreachable</b>: whatever it matched already fell through to the RSS default.</td><td>Refactored the factory to a single Atom check (commit <code>5e71a78</code>).</td></tr>
+    <tr><td>4 in <code>TaskController</code> moscow filter</td><td>The only filter test combined status and MoSCoW; every <code>IN_PROGRESS</code> seed task is <code>MUST_HAVE</code>, so the MoSCoW filter was never actually tested.</td><td>Added a MoSCoW-only filter test.</td></tr>
+    <tr><td>5 in <code>authMiddleware</code></td><td>Tests checked status codes but never the response body, so emptying the error message went unnoticed.</td><td>Assert full 401 and 403 bodies.</td></tr>
+    <tr><td>~20 in <code>SprintRiskService</code></td><td>The 7-day boundary (<code>&lt;=</code> vs <code>&lt;</code>), keyword precedence (“major” alone), and fallback incident fields were unasserted.</td><td>Boundary test with fake timers; keyword and fallback assertions.</td></tr>
+  </tbody>
+</table>
+<figure><img src="../screenshots/terminal/06-mutation-final.png"><figcaption>Figure 7 — After hardening: 96.49% mutation score (461 killed, 7 timeout, 13 survived).</figcaption></figure>
+<p><b>Remaining survivors are equivalent mutants</b>, meaning changes that cannot alter observable behaviour, so no test can kill them. Examples:
+<code>status || TaskStatus.TO_DO</code> in the controller (the <code>Task</code> constructor applies the same default);
+<code>item.pubDate || new Date()</code> (items without a date are already filtered out above); the unused
+<code>parserName</code> field; and log-message strings. They are documented here rather than suppressed.</p>
+<figure><img src="../screenshots/terminal/12-stryker-html-report.png"><figcaption>Figure 8 — Stryker HTML report (CI artifact).</figcaption></figure>
+
+<h2>1.6 Frontend tests</h2>
+<figure class="half"><img src="../screenshots/terminal/07-frontend-tests.png"><figcaption>Figure 9 — Vitest suite for the OPML 2.0 export service.</figcaption></figure>
+
+<!-- ============================================================ -->
+<h1>2. Version Management and System Building</h1>
+<h2>2.1 Branching strategy</h2>
+<p>The project follows <b>GitHub Flow</b>, as set up in DA1: <code>main</code> holds the stable, deployable version and every unit of work
+lives on a <code>feature/*</code> branch merged through a pull request. Each review has its own branch
+(<code>feature/da2-design</code>, <code>feature/da3-testing</code>) next to the functional branches
+(<code>feature/onboarding-rss-enhancements</code>, <code>feature/opml-feed-exporter</code>). Commits use the
+<b>Conventional Commits</b> prefixes <code>feat</code>, <code>fix</code>, <code>test</code>, <code>refactor</code>,
+<code>docs</code> and <code>ci</code>, so the history reads as a changelog. Releases are marked with semantic-version tags.</p>
+<figure><img src="../screenshots/terminal/09-git-log-graph.png"><figcaption>Figure 10 — Commit graph: feature branches merged into main; DA3 work as small, single-purpose commits.</figcaption></figure>
+<figure><img src="../screenshots/terminal/10-git-branches.png"><figcaption>Figure 11 — Local and remote branches with upstream tracking, and contributors.</figcaption></figure>
+<figure><img src="../screenshots/terminal/13-git-tags.png"><figcaption>Figure 12 — Annotated release tags, one per review milestone.</figcaption></figure>
+
+<h2>2.2 System building</h2>
+<p>The system is built at three levels, and each one is reproducible from a clean checkout:</p>
+<ol>
+  <li><b>Component builds.</b> The backend runs <code>npm run build</code>, which is <code>prisma generate</code> followed by <code>tsc</code>, the type-check gate. The frontend runs <code>npm run build</code>, which is a Vite production bundle of 215 kB (65 kB gzip).</li>
+  <li><b>Container images.</b> The backend uses a multi-stage Dockerfile, with a build stage and a slim runtime stage on <code>node:20-alpine</code>. The frontend Vite bundle is served by Nginx, which also reverse-proxies <code>/api</code>.</li>
+  <li><b>System composition.</b> <code>docker compose up --build</code> starts four services: <code>postgres:15</code>, <code>redis:7</code>, the backend and the frontend. They share one network, and health-checked dependencies control the start order.</li>
+</ol>
+<div class="row">
+  <figure><img src="../screenshots/terminal/08b-backend-build.png"><figcaption>Figure 13 — Backend build (Prisma client + tsc).</figcaption></figure>
+  <figure><img src="../screenshots/terminal/08-frontend-build.png"><figcaption>Figure 14 — Frontend production build.</figcaption></figure>
+</div>
+
+<h2>2.3 Continuous integration</h2>
+<p>A GitHub Actions workflow (<code>.github/workflows/ci.yml</code>) runs on every push to <code>main</code> and <code>feature/**</code>, on every pull request and on every <code>v*</code> tag. It has four jobs:</p>
+<ul>
+  <li><b>backend</b> builds the code, then runs the unit, integration and regression tests and coverage.</li>
+  <li><b>mutation</b> runs Stryker after the backend job and fails the pipeline if the score falls below 60%.</li>
+  <li><b>frontend</b> runs the Vitest tests and the production build in parallel with the backend job.</li>
+  <li><b>docker</b> builds the whole compose stack once both the backend and frontend jobs pass.</li>
+</ul>
+<p>The coverage report, the mutation report and the frontend <code>dist/</code> are uploaded as artifacts.</p>
+<figure><img src="../../design/png/11-ci-pipeline.png"><figcaption>Figure 15 — CI pipeline: build → test levels → mutation gate → system build.</figcaption></figure>
+<p class="label">Listing 3 — Backend job of the CI pipeline (.github/workflows/ci.yml, excerpt)</p>
+<pre>  backend:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: backend } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: npm, cache-dependency-path: backend/package-lock.json }
+      - run: npm ci
+      - run: npm run build            <span class="c"># prisma generate + tsc (type-check gate)</span>
+      - run: npm run test:unit
+      - run: npm run test:integration
+      - run: npm run test:regression -- --ci
+      - run: npm run test:coverage -- --ci</pre>
+
+<!-- ============================================================ -->
+<h1>3. Screenshots of Developed Functionalities</h1>
+<p>All screenshots below come from the running system. The Vite frontend talks to the Express backend, which uses real
+PostgreSQL and Redis instances, and the articles shown are live items harvested from the DEV Community and Hacker News RSS
+feeds at the time of capture.</p>
+<div class="row">
+  <figure><img src="../screenshots/app/01-onboarding.png"><figcaption>Figure 16 — Onboarding: reader profile, interest tags, seed channels (US #3).</figcaption></figure>
+  <figure><img src="../screenshots/app/07-timeline-mobile.png"><figcaption>Figure 17 — Reels-style vertical feed, mobile viewport, bottom navigation (US #4, #18, #21).</figcaption></figure>
+</div>
+<figure><img src="../screenshots/app/02-timeline-live-feed.png"><figcaption>Figure 18 — Timeline served from the Redis cache, with overlay actions: Like, Save, Focus Reader, Share, Open (US #4, #7, #8, #25).</figcaption></figure>
+<figure><img src="../screenshots/app/03-reader-view.png"><figcaption>Figure 19 — Distraction-free reader view: serif body text, A-/A+ font size, bookmark (US #6, #12, #17).</figcaption></figure>
+<figure><img src="../screenshots/app/04-explore.png"><figcaption>Figure 20 — Explore directory: curated categories, subscribe by custom RSS URL, recommended channels (US #10, #11).</figcaption></figure>
+<figure><img src="../screenshots/app/05-bookmarks.png"><figcaption>Figure 21 — Saved articles: bookmarked from the timeline, searchable, removable (US #9, #24).</figcaption></figure>
+<figure><img src="../screenshots/app/06-settings-opml.png"><figcaption>Figure 22 — Settings: reader profile, algorithm weights, OPML export/import, Warm Paper / E-Ink Dark theme (US #5).</figcaption></figure>
+<figure class="tall"><img src="../screenshots/app/08-live-api-redis-postgres.png"><figcaption>Figure 23 — Backend functionality on the live stack. Health check; login with bcrypt and JWT against PostgreSQL; protected profile; timeline served as <code>REDIS_CACHE_HIT</code> in 2 ms; Smart Backlog ranking; Redis TTL; user row in PostgreSQL (US #14, #15, #22).</figcaption></figure>
+
+<!-- ============================================================ -->
+<h1>4. Tools and Technologies Used</h1>
+<table>
+  <thead><tr><th style="width:20%">Area</th><th style="width:30%">Tool / technology</th><th>Purpose in Scrollhalla</th></tr></thead>
+  <tbody>
+    <tr><td>Frontend</td><td>React 18, TypeScript, Vite 5, React Router 6, lucide-react</td><td>Single-page e-reader UI, client-side routing, icon set.</td></tr>
+    <tr><td>Backend</td><td>Node.js 20, Express 4, TypeScript 5</td><td>REST API, controllers and domain services.</td></tr>
+    <tr><td>Feed parsing</td><td>rss-parser (behind <code>BaseParser</code> / <code>FeedParserFactory</code>)</td><td>RSS 2.0 and Atom 1.0 normalisation to one <code>IFeedItem</code> contract.</td></tr>
+    <tr><td>Scheduling</td><td>node-cron</td><td>Feed harvest every 15 minutes into Redis.</td></tr>
+    <tr><td>Database / ORM</td><td>PostgreSQL 15, Prisma 5</td><td>Users, subscriptions, articles, bookmarks; type-safe queries; schema push.</td></tr>
+    <tr><td>Cache</td><td>Redis 7, ioredis</td><td>Pre-computed timeline (TTL 1800 s), with an in-memory fallback.</td></tr>
+    <tr><td>Security</td><td>bcryptjs, jsonwebtoken</td><td>Password hashing, stateless JWT authentication.</td></tr>
+    <tr><td>Unit / integration / regression testing</td><td>Jest 29, ts-jest, supertest, Jest snapshots</td><td>Backend test pyramid.</td></tr>
+    <tr><td>Mutation testing</td><td>Stryker Mutator 9 (jest-runner)</td><td>Test-suite effectiveness, mutation score gate.</td></tr>
+    <tr><td>Frontend testing</td><td>Vitest</td><td>OPML service unit tests.</td></tr>
+    <tr><td>Version control</td><td>Git, GitHub (GitHub Flow, PRs, Issues, Projects Kanban)</td><td>Branching, code review, user-story tracking.</td></tr>
+    <tr><td>CI</td><td>GitHub Actions</td><td>Build, test, mutation gate and container build on every push.</td></tr>
+    <tr><td>Containers</td><td>Docker, Docker Compose, Nginx</td><td>Four-service deployment and an <code>/api</code> reverse proxy.</td></tr>
+    <tr><td>Design</td><td>Google Stitch, Mermaid</td><td>UI screens (DA1); architecture and UML diagrams as code.</td></tr>
+  </tbody>
+</table>
+
+<!-- ============================================================ -->
+<h1>5. Demo Plan</h1>
+<p>The live demo follows the reader's path through the system and then shows the engineering evidence behind it. It takes about 8 minutes.</p>
+<table>
+  <thead><tr><th style="width:6%">#</th><th style="width:36%">Step</th><th>What it demonstrates</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td><code>docker compose up --build</code></td><td>Builds the whole system with one command and starts all four containers.</td></tr>
+    <tr><td>2</td><td>Open <code>localhost:3000</code> and complete onboarding</td><td>Interest tags and seed channels (US #3).</td></tr>
+    <tr><td>3</td><td>Scroll the timeline; like, save and share an article</td><td>Reels-style feed served from Redis; overlay actions.</td></tr>
+    <tr><td>4</td><td>Open Focus Reader; change the font size</td><td>Distraction-free reading and the accessibility setting.</td></tr>
+    <tr><td>5</td><td>Explore → subscribe by custom URL; Saved tab</td><td>Feed discovery and bookmarks.</td></tr>
+    <tr><td>6</td><td>Settings → Export OPML; switch to E-Ink Dark</td><td>Feed portability and theming.</td></tr>
+    <tr><td>7</td><td><code>curl /api/feed</code> twice</td><td><code>ON_DEMAND_HARVEST</code> on the first call, <code>REDIS_CACHE_HIT</code> on the second (inverted read path).</td></tr>
+    <tr><td>8</td><td><code>npm test</code> and <code>npm run test:mutation</code></td><td>111 passing tests and a 96.5% mutation score.</td></tr>
+    <tr><td>9</td><td>GitHub → Actions tab, commit graph, tags</td><td>The CI run, branching strategy and releases.</td></tr>
+  </tbody>
+</table>
+
+<!-- ============================ PART B ============================ -->
+
+<h1>6. Problem Statement</h1>
+<p>Readers face extreme algorithmic noise, cluttered interfaces and information overload in mainstream social
+media and news apps. Feeds are ranked by engagement rather than by the reader's intent, and long-form text is
+presented in high-contrast, ad-dense layouts that tire the eye. Standard RSS readers solve the control problem but
+keep a dated, list-heavy interface that discourages continuous reading.</p>
+<p><b>Scrollhalla</b> is a minimalist, mobile-first RSS/Atom aggregator that combines two things:</p>
+<ul>
+  <li>the <i>control</i> of RSS, so readers decide which sources they follow;</li>
+  <li>the <i>frictionless discovery</i> of a vertical, Reels-style scroll.</li>
+</ul>
+<p>It presents articles in a calm e-reader aesthetic, with a warm paper background and serif reading text. Feeds are harvested in the background
+and cached, so opening the app never waits on third-party servers.</p>
+<p><b>Target users.</b></p>
+<ul>
+  <li><i>The Deep Thinker</i> reads long-form essays, tech blogs and news, and wants a paper-like experience without eye strain.</li>
+  <li><i>The Curator</i> is tired of algorithms choosing their feed and wants to subscribe explicitly through tags and lists.</li>
+</ul>
+<p><b>Success criteria.</b></p>
+<ul>
+  <li>Feed loads under 500 ms. Measured at 0–2 ms from the Redis cache.</li>
+  <li>Standard RSS 2.0 and Atom 1.0 feeds parse correctly. Verified by the parser unit tests.</li>
+  <li>The system deploys with a single command through Docker Compose.</li>
+</ul>
+
+<!-- ============================================================ -->
+<h1>7. User Stories</h1>
+<p>User stories are tracked as GitHub Issues and on the GitHub Projects Kanban board, as set up in DA1. The
+table maps each story to its MoSCoW priority, its implementation status in this release, and the evidence for it: a
+test ID from Section 9 or a screenshot.</p>
+<table>
+  <thead><tr><th style="width:5%">#</th><th>User story</th><th style="width:9%">MoSCoW</th><th style="width:11%">Status</th><th style="width:19%">Evidence</th></tr></thead>
+  <tbody>
+    <tr><td>3</td><td>As a new user, I want an onboarding screen with interest tags so I can bootstrap my initial feed.</td><td>Must</td><td class="ok">Done</td><td>Fig. 16</td></tr>
+    <tr><td>4</td><td>As a user, I want my feed in a vertical, Reels-style scroll so I can move seamlessly between article snippets.</td><td>Must</td><td class="ok">Done</td><td>Fig. 17–18</td></tr>
+    <tr><td>5</td><td>As a reader, I want an off-white, paper-like background to reduce eye strain.</td><td>Should</td><td class="ok">Done</td><td>Fig. 18, 22</td></tr>
+    <tr><td>6</td><td>As a reader, I want a highly readable serif font for article content.</td><td>Should</td><td class="ok">Done</td><td>Fig. 19</td></tr>
+    <tr><td>7</td><td>As a user, I want a “Like” button so the app learns my preferences.</td><td>Should</td><td class="ok">Done</td><td>Fig. 18; TC-U-SB</td></tr>
+    <tr><td>8</td><td>As a user, I want a “Save” button on a feed item to read it later.</td><td>Should</td><td class="ok">Done</td><td>Fig. 18, 21</td></tr>
+    <tr><td>9</td><td>As a user, I want a Saved/Bookmarks screen listing my saved articles.</td><td>Should</td><td class="ok">Done</td><td>Fig. 21</td></tr>
+    <tr><td>10</td><td>As a user, I want an Explore page to discover feeds by topic.</td><td>Should</td><td class="ok">Done</td><td>Fig. 20</td></tr>
+    <tr><td>11</td><td>As a user, I want to paste a custom RSS URL on Explore to add a blog.</td><td>Should</td><td class="ok">Done</td><td>Fig. 20</td></tr>
+    <tr><td>12</td><td>As a reader, I want to open a snippet in a full-screen “Focus View”.</td><td>Should</td><td class="ok">Done</td><td>Fig. 19</td></tr>
+    <tr><td>13</td><td>As a backend system, I want to fetch feeds automatically so content stays fresh.</td><td>Must</td><td class="ok">Done</td><td>node-cron every 15 min; TC-I-FEED</td></tr>
+    <tr><td>14</td><td>As a backend system, I want to parse both RSS 2.0 and Atom feeds.</td><td>Must</td><td class="ok">Done</td><td>TC-U-PAR, TC-U-FAC</td></tr>
+    <tr><td>15</td><td>As an application, I want to cache parsed feed JSON in Redis for instant load.</td><td>Could</td><td class="ok">Done</td><td>TC-I-FEED; Fig. 23</td></tr>
+    <tr><td>16</td><td>As a user, I want to remove a feed from my subscriptions.</td><td>Should</td><td class="part">Partial</td><td>Data model supports it (cascade); no UI yet</td></tr>
+    <tr><td>17</td><td>As a user, I want to adjust the base font size for accessibility.</td><td>Could</td><td class="ok">Done</td><td>Fig. 19 (A-/A+)</td></tr>
+    <tr><td>18</td><td>As a user, I want an estimated “Read Time” on each card.</td><td>Should</td><td class="ok">Done</td><td>Fig. 17–18</td></tr>
+    <tr><td>19</td><td>As a user, I want to log out securely.</td><td>Must</td><td class="part">Partial</td><td>JWT clear in <code>apiService</code>; no UI button</td></tr>
+    <tr><td>20</td><td>As a user, I want a thumbnail next to the article title.</td><td>Could</td><td class="no">Open</td><td>Deferred</td></tr>
+    <tr><td>21</td><td>As a user, I want a minimalist bottom navigation bar (mobile).</td><td>Should</td><td class="ok">Done</td><td>Fig. 17</td></tr>
+    <tr><td>22</td><td>As an Admin, I want to configure PostgreSQL via environment variables.</td><td>Must</td><td class="ok">Done</td><td><code>DATABASE_URL</code>; Fig. 23</td></tr>
+    <tr><td>23</td><td>As a developer, I want to deploy frontend and backend together with Docker Compose.</td><td>Must</td><td class="ok">Done</td><td>CI docker job; §2.2</td></tr>
+    <tr><td>24</td><td>As a user, I want an empty state if I have no saved articles.</td><td>Could</td><td class="ok">Done</td><td>BookmarksView empty state</td></tr>
+    <tr><td>25</td><td>As a user, I want to share an article link via a “Share” button.</td><td>Could</td><td class="ok">Done</td><td>Fig. 18</td></tr>
+  </tbody>
+</table>
+<p>Summary: <b>20 of 23</b> stories are complete, 2 are partial and 1 is deferred. Every <i>Must Have</i> that the reader
+sees is complete. The two partial stories are already supported in the backend and data model and need only a UI
+control.</p>
+
+<!-- ============================================================ -->
+<h1>8. System Architecture and System Design</h1>
+<h2>8.1 Architectural style</h2>
+<p>Scrollhalla is a <b>layered (n-tier) architecture</b>. It runs as four containers orchestrated by Docker Compose: an Nginx-served
+React SPA, an Express API, PostgreSQL and Redis. A layered style was chosen over microservices because the
+deciding constraint is team size, not scale. Two developers would pay the full coordination cost of independent services
+and gain nothing, since there is no independent scaling requirement.</p>
+<p>One refinement is deliberate: the <b>read path is inverted</b>. A cron worker harvests the external feeds every 15 minutes and
+writes a normalised timeline to Redis, so <code>GET /api/feed</code> becomes a single key lookup. Freshness is traded
+for latency and for isolation from third-party servers.</p>
+<figure><img src="../../design/png/01-architecture.png"><figcaption>Figure 24 — Architecture and deployment view.</figcaption></figure>
+
+<h2>8.2 Design principles and patterns</h2>
+<ul>
+  <li><b>Abstraction and polymorphism.</b> The abstract <code>BaseParser</code> defines one contract, <code>parse(url): IFeedItem[]</code>. <code>RssParser</code> and <code>AtomParser</code> implement it.</li>
+  <li><b>Factory Method.</b> <code>FeedParserFactory</code> keeps object creation out of the callers. DA3's mutation testing simplified it to a single Atom check (§1.5).</li>
+  <li><b>Rich domain model.</b> <code>Task.getDaysInBacklog()</code> and <code>BacklogItem.getMoscowWeight()</code> keep behaviour next to the data it uses.</li>
+  <li><b>Strategy and configuration.</b> <code>SmartBacklogService</code> takes injectable weights, which the tests exercise directly.</li>
+  <li><b>Dependency injection.</b> <code>routes/api.ts</code> is the composition root, and a single <code>TaskController</code> is shared by the Backlog and Team controllers.</li>
+  <li><b>Resilience.</b> <code>CacheService</code> falls back to an in-memory store, and <code>SprintRiskService</code> falls back to known telemetry.</li>
+</ul>
+<figure class="tall"><img src="../../design/png/02-class-diagram.png"><figcaption>Figure 25 — Class diagram of the backend domain.</figcaption></figure>
+<figure><img src="../../design/png/04-module-dependencies.png"><figcaption>Figure 26 — Five-layer module dependencies. Arrows only point downward.</figcaption></figure>
+
+<h2>8.3 Key design decisions</h2>
+<table>
+  <thead><tr><th style="width:22%">Decision</th><th>Why</th><th style="width:30%">Cost</th></tr></thead>
+  <tbody>
+    <tr><td>Abstract parser behind a factory</td><td>A new feed format means one new subclass plus one line in the factory. Callers stay closed to modification.</td><td>One extra layer of indirection.</td></tr>
+    <tr><td>Inverted read path (cron → Redis)</td><td>Takes seconds of third-party latency off the request path.</td><td>Content can be up to 15 minutes stale.</td></tr>
+    <tr><td>Cache with in-memory fallback</td><td>If Redis is down, performance degrades but the product still works.</td><td>Fallback state is per process.</td></tr>
+    <tr><td>Rich domain classes</td><td>The scoring rule cannot drift away from the fields it reads.</td><td>Objects must be rehydrated from JSON.</td></tr>
+    <tr><td>Nginx reverse proxy for <code>/api</code></td><td>One origin, so no CORS configuration in production.</td><td>Local development needs a matching Vite proxy.</td></tr>
+  </tbody>
+</table>
+<p>The full design rationale, the six UI screens and the design-system board are in the DA2 Software Design Document
+(<code>design/Scrollhalla_DA2_Software_Design_Document.docx</code>).</p>
+
+<!-- ============================================================ -->
+<h1>9. Design of Tests</h1>
+<h2>9.1 Strategy</h2>
+<p>The test design follows the architecture's layers. Each level replaces exactly one boundary, which is why every failure
+points to a single place:</p>
+<ul>
+  <li><b>Unit tests</b> isolate a class from all I/O.</li>
+  <li><b>Integration tests</b> keep everything real except the Layer-5 adapters: Prisma, Redis and outbound HTTP are swapped for in-memory fakes with the same interface.</li>
+  <li><b>Regression tests</b> freeze the externally visible contract.</li>
+  <li><b>Mutation testing</b> then measures whether the three levels above would catch a real defect.</li>
+</ul>
+<figure class="half"><img src="../../design/png/12-test-pyramid.png"><figcaption>Figure 27 — Test pyramid, with mutation testing on top measuring the levels below.</figcaption></figure>
+
+<h2>9.2 Test-design techniques</h2>
+<ul>
+  <li><b>Equivalence partitioning.</b> MoSCoW priorities (4 valid plus 1 unknown); feed URLs (Atom, RSS, generic); auth headers (missing, wrong scheme, forged, expired, valid).</li>
+  <li><b>Boundary-value analysis.</b> Risk thresholds at 19/20, 39/40 and 69/70 and the cap at 100; the risk floor of 5%; the 7-day incident window, exactly at the limit and one second over; <code>getDaysInBacklog</code> never below 1; team utilisation capped at 100%.</li>
+  <li><b>Decision tables.</b> Severity classification from title and body keywords (Table 9.3, TC-U-SR).</li>
+  <li><b>State-based testing.</b> The task lifecycle: create → read (views +1) → update → comment → delete → 404 on every verb.</li>
+  <li><b>Error guessing and fault injection.</b> Network failure for each parser and the risk service; one failing publisher among several; Redis unavailable; malformed JSON body.</li>
+  <li><b>Golden master and contract snapshots.</b> Used for the regression pack.</li>
+</ul>
+
+<h2>9.3 Test cases (representative)</h2>
+<table>
+  <thead><tr><th style="width:11%">ID</th><th style="width:21%">Unit under test</th><th>Input / condition</th><th style="width:26%">Expected result</th><th style="width:7%">Result</th></tr></thead>
+  <tbody>
+    <tr><td>TC-U-T1</td><td>Task constructor</td><td>Only title and description</td><td>TO_DO, SHOULD_HAVE, 3 points, “Unassigned”, id <code>TASK-dddd</code></td><td class="ok">Pass</td></tr>
+    <tr><td>TC-U-T2</td><td>Task.getDaysInBacklog</td><td>Created now; created 4.2 days ago</td><td>1; 5 (rounded up, never below 1)</td><td class="ok">Pass</td></tr>
+    <tr><td>TC-U-B1</td><td>BacklogItem.getMoscowWeight</td><td>MUST, SHOULD, COULD, WONT, unknown</td><td>2.5, 1.8, 1.2, 0.5, 1.0</td><td class="ok">Pass</td></tr>
+    <tr><td>TC-U-SB1</td><td>SmartBacklogService</td><td>views 10, comments 2, 4 days, 5 points, MUST</td><td>(15 + 8 + 25·ln 5 + 6) × 2.5</td><td class="ok">Pass</td></tr>
+    <tr><td>TC-U-SB2</td><td>SmartBacklogService</td><td>Negative view weight</td><td>Score clamped to 0</td><td class="ok">Pass</td></tr>
+    <tr><td>TC-U-SB3</td><td>getRankedBacklog</td><td>Low, high and mid tasks in that order</td><td>HIGH, MID, LOW, non-increasing</td><td class="ok">Pass</td></tr>
+    <tr><td>TC-U-SR1</td><td>SprintRiskService severity</td><td>“major” / “outage” / body “major outage”</td><td>CRITICAL (30)</td><td class="ok">Pass</td></tr>
+    <tr><td>TC-U-SR2</td><td>SprintRiskService severity</td><td>“degraded” / “partial” / body “incident”</td><td>HIGH (20)</td><td class="ok">Pass</td></tr>
+    <tr><td>TC-U-SR3</td><td>SprintRiskService thresholds</td><td>Weights summing to 15, 20, 40, 70, 120</td><td>LOW, MEDIUM, HIGH, CRITICAL, capped at 100</td><td class="ok">Pass</td></tr>
+    <tr><td>TC-U-SR4</td><td>SprintRiskService window</td><td>Incident exactly 7 days old, and 7 days + 1 s</td><td>Counted, not counted</td><td class="ok">Pass</td></tr>
+    <tr><td>TC-U-SR5</td><td>SprintRiskService fallback</td><td>Feed unreachable</td><td>18%, LOW, two past incidents, “(Resilience Fallback Mode)”</td><td class="ok">Pass</td></tr>
+    <tr><td>TC-U-PAR1</td><td>RssParser</td><td>Full RSS item</td><td>Normalised <code>IFeedItem</code>, ISO date, <code>feedType</code> RSS</td><td class="ok">Pass</td></tr>
+    <tr><td>TC-U-PAR2</td><td>AtomParser</td><td>Entry with summary and updated</td><td>Content from summary, date from updated, ATOM</td><td class="ok">Pass</td></tr>
+    <tr><td>TC-U-PAR3</td><td>Rss/AtomParser</td><td>Network error</td><td>Resolves to <code>[]</code> without throwing</td><td class="ok">Pass</td></tr>
+    <tr><td>TC-U-FAC</td><td>FeedParserFactory</td><td>ATOM, <code>.atom</code>, <code>/atom</code>, RSS, <code>.rss</code>, <code>/feed</code>, AUTO</td><td>AtomParser × 4, RssParser × 5</td><td class="ok">Pass</td></tr>
+    <tr><td>TC-U-MW</td><td>authenticateJWT</td><td>No header; Basic; forged; expired; valid</td><td>401; 401; 403; 403; <code>next()</code> with <code>req.user</code></td><td class="ok">Pass</td></tr>
+    <tr><td>TC-U-C1</td><td>CacheService</td><td>Redis down; set, get, TTL expiry</td><td>Value round-trips; <code>null</code> after TTL</td><td class="ok">Pass</td></tr>
+    <tr><td>TC-I-TASK</td><td>/api/tasks (CRUD)</td><td>Create → get ×2 → update → comment → delete</td><td>201; views +1; partial update; 201; then 404 on every verb</td><td class="ok">Pass</td></tr>
+    <tr><td>TC-I-DI</td><td>/api/smart-backlog + /api/team</td><td>New task with 80 views and 20 comments; reassignment</td><td>Ranked first; member workload updated</td><td class="ok">Pass</td></tr>
+    <tr><td>TC-I-FEED</td><td>/api/feed pipeline</td><td>Cold cache, then a second call; one source failing</td><td>ON_DEMAND_HARVEST, newest first; then CACHE_HIT with no refetch; 2 of 3 sources still served</td><td class="ok">Pass</td></tr>
+    <tr><td>TC-I-AUTH</td><td>/api/auth/*</td><td>Register, duplicate, bad login, login, /me with and without token</td><td>201 (no hash in body); 409; 401 with identical messages; 200; 200 / 401</td><td class="ok">Pass</td></tr>
+    <tr><td>TC-R-01</td><td>All endpoints</td><td>GET on 9 routes</td><td>Status and response shape match snapshot</td><td class="ok">Pass</td></tr>
+    <tr><td>TC-R-02</td><td>Seed backlog</td><td>GET /api/smart-backlog</td><td>Order 102, 104, 101, 103, 105, 106</td><td class="ok">Pass</td></tr>
+    <tr><td>TC-R-03</td><td>Edge behaviours</td><td>storyPoints 0; utilisation over 100%; malformed JSON</td><td>3; capped at 100; handled error with success: false</td><td class="ok">Pass</td></tr>
+    <tr><td>TC-F-OPML</td><td>generateOpmlXml</td><td>Title <code>Tom &amp; "Jerry's" &lt;feed&gt;</code></td><td>All five XML entities escaped; valid OPML 2.0</td><td class="ok">Pass</td></tr>
+  </tbody>
+</table>
+
+<h2>9.4 Test doubles</h2>
+<table>
+  <thead><tr><th style="width:24%">Double</th><th>Replaces</th><th style="width:34%">Used by</th></tr></thead>
+  <tbody>
+    <tr><td><code>rssParserMock</code></td><td>The rss-parser network client, with a programmable <code>parseURL</code></td><td>Parser, risk service, integration and regression tests</td></tr>
+    <tr><td><code>prismaModuleMock</code></td><td>The Prisma client, backed by an in-memory <code>users</code> array</td><td>Integration and regression tests (auth)</td></tr>
+    <tr><td><code>cacheModuleMock</code></td><td>The Redis <code>CacheService</code>, backed by a <code>Map</code></td><td>Integration and regression tests (feed)</td></tr>
+    <tr><td>Fake timers</td><td>The system clock</td><td>TTL expiry and 7-day boundary tests</td></tr>
+  </tbody>
+</table>
+
+<h2>9.5 Exit criteria</h2>
+<ul>
+  <li>All unit, integration and regression tests pass in CI.</li>
+  <li>Mutation score is at least 60% (break threshold). The target band is 70–85% or above; achieved: 96.49%.</li>
+  <li>Every surviving mutant is either killed or documented as equivalent (§1.5).</li>
+  <li>The backend type-checks (<code>tsc</code>) and the frontend builds. The compose stack builds.</li>
+</ul>
+
+<!-- ============================ APPENDIX ============================ -->
+
+<h1>Appendix A — Software Requirements Specification</h1>
+<h2>A.1 Purpose and scope</h2>
+<p>This SRS specifies Scrollhalla, a web-based RSS/Atom e-reader with a Reels-style reading feed. It is delivered as a
+React SPA and a REST API, deployed with Docker Compose. Out of scope for this release are full offline support, native
+iOS/Android apps and AI-generated summaries (the <i>Won't Have</i> items in DA1).</p>
+<h2>A.2 Overall description</h2>
+<ul>
+  <li><b>Users:</b> the Reader (Deep Thinker and Curator personas) and the Admin/DevOps role. A cron scheduler and external publishers are system actors.</li>
+  <li><b>Operating environment:</b> a modern browser (desktop and mobile), Node.js 20, PostgreSQL 15, Redis 7, and Docker.</li>
+  <li><b>Constraints:</b> deployable with Docker Compose; configuration only through environment variables; no secrets committed.</li>
+  <li><b>Assumptions:</b> users have standard RSS/Atom URLs or use the in-app directory; publishers serve valid XML over HTTP(S).</li>
+</ul>
+<h2>A.3 Functional requirements</h2>
+<table>
+  <thead><tr><th style="width:9%">ID</th><th>Requirement</th><th style="width:10%">Priority</th><th style="width:12%">Story</th></tr></thead>
+  <tbody>
+    <tr><td>FR-1</td><td>The system shall let a user register and log in with email and password, store a bcrypt hash, and issue a JWT valid for 7 days.</td><td>Must</td><td>#19</td></tr>
+    <tr><td>FR-2</td><td>The system shall reject protected requests without a valid Bearer token (401 when missing, 403 when invalid or expired).</td><td>Must</td><td>#19</td></tr>
+    <tr><td>FR-3</td><td>The system shall provide onboarding where the reader enters a profile, selects interest tags and chooses seed channels.</td><td>Must</td><td>#3</td></tr>
+    <tr><td>FR-4</td><td>The system shall parse RSS 2.0 and Atom 1.0 feeds into one normalised article format.</td><td>Must</td><td>#14</td></tr>
+    <tr><td>FR-5</td><td>The system shall harvest all subscriptions every 15 minutes and cache the merged, newest-first timeline for 30 minutes.</td><td>Must</td><td>#13, #15</td></tr>
+    <tr><td>FR-6</td><td>On a cache miss, the system shall harvest on demand. A failing publisher shall not prevent the other publishers' articles from being served.</td><td>Must</td><td>#15</td></tr>
+    <tr><td>FR-7</td><td>The system shall present the timeline as a vertical, one-card-per-article scroll with read time, and Like, Save, Read, Share and Open actions.</td><td>Must</td><td>#4, #7, #8, #18, #25</td></tr>
+    <tr><td>FR-8</td><td>The system shall provide a full-screen reader view with adjustable font size.</td><td>Should</td><td>#12, #17</td></tr>
+    <tr><td>FR-9</td><td>The system shall list bookmarked articles with search and removal, and show an empty state when there are none.</td><td>Should</td><td>#9, #24</td></tr>
+    <tr><td>FR-10</td><td>The system shall offer a categorised feed directory and subscription by custom URL.</td><td>Should</td><td>#10, #11</td></tr>
+    <tr><td>FR-11</td><td>The system shall export subscriptions as OPML 2.0 with XML-escaped fields.</td><td>Could</td><td>—</td></tr>
+    <tr><td>FR-12</td><td>The system shall offer Warm Paper and E-Ink Dark themes.</td><td>Could</td><td>#5</td></tr>
+    <tr><td>FR-13</td><td>The system shall let a user remove a subscription.</td><td>Should</td><td>#16</td></tr>
+    <tr><td>FR-14</td><td>The system shall rank backlog items by views, comments, age, story points and MoSCoW weight (Smart Backlog).</td><td>Should</td><td>—</td></tr>
+    <tr><td>FR-15</td><td>The system shall compute a 0–100% sprint risk score from the GitHub status feed, with an offline fallback.</td><td>Could</td><td>—</td></tr>
+  </tbody>
+</table>
+<h2>A.4 Non-functional requirements</h2>
+<table>
+  <thead><tr><th style="width:9%">ID</th><th style="width:17%">Category</th><th>Requirement</th><th style="width:24%">Verification</th></tr></thead>
+  <tbody>
+    <tr><td>NFR-1</td><td>Performance</td><td>Timeline API responds in under 500 ms when the cache is warm.</td><td>Measured 0–2 ms (Fig. 23)</td></tr>
+    <tr><td>NFR-2</td><td>Availability</td><td>If Redis is unavailable, the system degrades to an in-memory cache instead of failing.</td><td>TC-U-C1</td></tr>
+    <tr><td>NFR-3</td><td>Security</td><td>Passwords are never stored or returned in plain text. Login errors do not reveal whether an account exists.</td><td>TC-I-AUTH, TC-R-03</td></tr>
+    <tr><td>NFR-4</td><td>Usability</td><td>Warm paper palette (#F4F1EA / #2D2D2D); one primary action per screen; navigation within thumb reach on mobile.</td><td>Fig. 16–22</td></tr>
+    <tr><td>NFR-5</td><td>Portability</td><td>The whole stack starts with <code>docker compose up</code>. All configuration comes from the environment.</td><td>CI docker job</td></tr>
+    <tr><td>NFR-6</td><td>Maintainability</td><td>Adding a feed format needs no change to callers. Mutation score stays at or above 60% in CI.</td><td>TC-U-FAC; Stryker gate</td></tr>
+    <tr><td>NFR-7</td><td>Interoperability</td><td>Subscriptions can be exchanged with other readers through OPML 2.0.</td><td>TC-F-OPML</td></tr>
+  </tbody>
+</table>
+<h2>A.5 External interfaces</h2>
+<table>
+  <thead><tr><th style="width:12%">Method</th><th style="width:30%">Endpoint</th><th>Description</th><th style="width:10%">Auth</th></tr></thead>
+  <tbody>
+    <tr><td>GET</td><td><code>/health</code></td><td>Service liveness</td><td>—</td></tr>
+    <tr><td>POST</td><td><code>/api/auth/register</code>, <code>/api/auth/login</code></td><td>Create account / obtain JWT</td><td>—</td></tr>
+    <tr><td>GET</td><td><code>/api/auth/me</code></td><td>Profile with subscriptions and bookmarks</td><td>JWT</td></tr>
+    <tr><td>GET</td><td><code>/api/feed</code></td><td>Cached combined timeline (source, latency, count, data)</td><td>—</td></tr>
+    <tr><td>GET/POST/PUT/DELETE</td><td><code>/api/tasks[/:id[/comments]]</code></td><td>Backlog task CRUD and comments</td><td>—</td></tr>
+    <tr><td>GET</td><td><code>/api/smart-backlog</code>, <code>/api/sprint-risk</code>, <code>/api/team</code></td><td>Ranked backlog, risk telemetry, team workload</td><td>—</td></tr>
+  </tbody>
+</table>
+
+<h1>Appendix B — Data Flow Diagrams</h1>
+<figure><img src="../../design/png/06-dfd-level0.png"><figcaption>Figure B1 — DFD Level 0 (context diagram).</figcaption></figure>
+<figure class="tall"><img src="../../design/png/07-dfd-level1.png"><figcaption>Figure B2 — DFD Level 1: six processes and five data stores. The dotted flow is the cache-miss path.</figcaption></figure>
+
+<h1>Appendix C — Entity Relationship Diagram</h1>
+<p>The ERD is derived directly from <code>backend/prisma/schema.prisma</code>:</p>
+<ul>
+  <li>a User has many Subscriptions and many Bookmarks;</li>
+  <li>a Subscription has many Articles;</li>
+  <li>a Bookmark links one User to one Article, and the pair <code>(userId, articleId)</code> is unique.</li>
+</ul>
+<p>All foreign keys cascade on delete.</p>
+<figure class="tall"><img src="../../design/png/08-erd.png"><figcaption>Figure C1 — Entity relationship diagram (PostgreSQL via Prisma).</figcaption></figure>
+
+<h1>Appendix D — UML Diagrams</h1>
+<figure class="tall"><img src="../../design/png/05-use-case.png"><figcaption>Figure D1 — Use case diagram.</figcaption></figure>
+<figure class="tall"><img src="../../design/png/02-class-diagram.png"><figcaption>Figure D2 — Class diagram.</figcaption></figure>
+<figure class="tall"><img src="../../design/png/03-sequence-feed.png"><figcaption>Figure D3 — Sequence diagram: cron harvest, cached read and cold-start fallback.</figcaption></figure>
+<figure class="tall"><img src="../../design/png/09-activity-reading.png"><figcaption>Figure D4 — Activity diagram: onboarding and reading session.</figcaption></figure>
+<figure class="half"><img src="../../design/png/10-state-task.png"><figcaption>Figure D5 — State machine diagram: backlog task lifecycle.</figcaption></figure>
+<figure><img src="../../design/png/04-module-dependencies.png"><figcaption>Figure D6 — Component/package diagram: layered module dependencies.</figcaption></figure>
+<figure><img src="../../design/png/01-architecture.png"><figcaption>Figure D7 — Deployment diagram: four Docker Compose containers.</figcaption></figure>
+
+<h1>Appendix E — Code Listing and GitHub Link</h1>
+<p><b>Repository:</b> https://github.com/tejasjaiswal2024-art/Scrollhalla<br>
+<b>DA3 branch:</b> <code>feature/da3-testing</code> · <b>Release tag:</b> <code>v3.0.0</code></p>
+<table>
+  <thead><tr><th style="width:42%">Path</th><th>Contents</th></tr></thead>
+  <tbody>
+    <tr><td><code>backend/src/</code></td><td>Express app, controllers, services, models, parsers, middleware, cron worker, Prisma/Redis config</td></tr>
+    <tr><td><code>backend/prisma/schema.prisma</code></td><td>Database schema (Appendix C)</td></tr>
+    <tr><td><code>backend/tests/unit|integration|regression/</code></td><td>Jest suites; <code>tests/helpers/</code> holds the test doubles</td></tr>
+    <tr><td><code>backend/jest.config.js</code>, <code>stryker.config.json</code></td><td>Test runner and mutation configuration</td></tr>
+    <tr><td><code>frontend/src/</code></td><td>React views, components, services (<code>apiService</code>, <code>opmlService</code>)</td></tr>
+    <tr><td><code>.github/workflows/ci.yml</code></td><td>CI pipeline</td></tr>
+    <tr><td><code>docker-compose.yml</code>, <code>*/Dockerfile</code>, <code>frontend/nginx.conf</code></td><td>System build and deployment</td></tr>
+    <tr><td><code>design/</code></td><td>Mermaid sources, PNG exports, UI screens, DA2 SDD</td></tr>
+    <tr><td><code>docs-da3/</code></td><td>This report and all screenshots</td></tr>
+  </tbody>
+</table>
+
+<p class="label">Listing E1 — Factory Method after the mutation-driven refactor (backend/src/parsers/FeedParserFactory.ts)</p>
+<pre><span class="k">export class</span> FeedParserFactory {
+  <span class="k">public static</span> createParser(formatOrUrl: string = <span class="s">'AUTO'</span>): BaseParser {
+    <span class="k">return</span> FeedParserFactory.isAtom(formatOrUrl) ? <span class="k">new</span> AtomParser() : <span class="k">new</span> RssParser();
+  }
+  <span class="k">private static</span> isAtom(formatOrUrl: string): boolean {
+    <span class="k">return</span> formatOrUrl.toUpperCase() === <span class="s">'ATOM'</span> || formatOrUrl.includes(<span class="s">'.atom'</span>) || formatOrUrl.includes(<span class="s">'/atom'</span>);
+  }
+}</pre>
+
+<p class="label">Listing E2 — Smart Backlog scoring (backend/src/services/SmartBacklogService.ts)</p>
+<pre><span class="k">public</span> calculatePriorityScore(item: BacklogItem): number {
+  <span class="k">const</span> viewScore = item.views * <span class="k">this</span>.config.weightViews;
+  <span class="k">const</span> commentScore = item.commentCount * <span class="k">this</span>.config.weightComments;
+  <span class="c">// Logarithmic decay/growth for time in backlog to avoid extreme skew</span>
+  <span class="k">const</span> ageScore = Math.log(item.daysInBacklog + 1) * 10 * <span class="k">this</span>.config.weightBacklogAge;
+  <span class="k">const</span> complexityScore = item.storyPoints * <span class="k">this</span>.config.weightStoryPoints;
+  <span class="k">const</span> finalScore = (viewScore + commentScore + ageScore + complexityScore) * item.moscowWeight;
+  item.priorityScore = Math.max(0, finalScore);
+  <span class="k">return</span> item.priorityScore;
+}</pre>
+
+<p class="label">Listing E3 — Read path served from Redis (backend/src/controllers/FeedController.ts, excerpt)</p>
+<pre><span class="k">let</span> cachedTimeline = <span class="k">await</span> cacheService.get(REDIS_FEED_CACHE_KEY);
+<span class="k">if</span> (cachedTimeline) {
+  articles = JSON.parse(cachedTimeline);
+} <span class="k">else</span> {
+  <span class="c">// Cache miss: execute on-demand harvest & populate cache</span>
+  articles = <span class="k">await</span> FeedCronWorker.executeFeedHarvest();
+}
+res.json({ success: <span class="k">true</span>, source: cachedTimeline ? <span class="s">'REDIS_CACHE_HIT'</span> : <span class="s">'ON_DEMAND_HARVEST'</span>, latencyMs, count: articles.length, data: articles });</pre>
+
+<p class="label">Listing E4 — Mutation testing configuration (backend/stryker.config.json)</p>
+<pre>{
+  <span class="s">"testRunner"</span>: <span class="s">"jest"</span>,
+  <span class="s">"jest"</span>: { <span class="s">"configFile"</span>: <span class="s">"jest.config.js"</span>, <span class="s">"enableFindRelatedTests"</span>: <span class="k">false</span> },
+  <span class="s">"coverageAnalysis"</span>: <span class="s">"perTest"</span>,
+  <span class="s">"mutate"</span>: [<span class="s">"src/models/**/*.ts"</span>, <span class="s">"src/services/**/*.ts"</span>, <span class="s">"src/parsers/**/*.ts"</span>,
+             <span class="s">"src/middleware/**/*.ts"</span>, <span class="s">"src/controllers/TaskController.ts"</span>, <span class="s">"src/controllers/TeamController.ts"</span>],
+  <span class="s">"thresholds"</span>: { <span class="s">"high"</span>: 85, <span class="s">"low"</span>: 70, <span class="s">"break"</span>: 60 }
+}</pre>
+
+<h2>Conclusion</h2>
+<p>Review 3 takes Scrollhalla from an untested codebase to one with a four-level automated test suite of 116 tests,
+92% line coverage and a 96.5% mutation score, enforced by a CI pipeline that builds and tests every push. Mutation
+testing was the most informative of the levels. Besides measuring the suite, it found dead code in the parser factory
+and three blind spots that coverage figures had hidden. The system builds and runs end-to-end on PostgreSQL and
+Redis with live feeds. Twenty of twenty-three user stories are complete, and the remaining three are recorded with
+their current state.</p>
+</body>
+</html>

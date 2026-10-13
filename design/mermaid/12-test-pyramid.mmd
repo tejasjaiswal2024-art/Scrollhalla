@@ -1,0 +1,12 @@
+flowchart TB
+  m["Mutation testing — Stryker<br/>tests the tests · 96.5% score"]
+  r["Regression — 14 tests<br/>API contract snapshots · golden-master ranking"]
+  i["Integration — 23 tests<br/>supertest: routes → controllers → services → models"]
+  u["Unit — 74 backend + 5 frontend<br/>models · services · parsers · middleware · cache · OPML"]
+  m --- r --- i --- u
+  classDef top fill:#2D2D2D,stroke:#2D2D2D,color:#F4F1EA
+  classDef mid fill:#E8E4D8,stroke:#8C6B40,color:#2D2D2D
+  classDef base fill:#F4F1EA,stroke:#8C6B40,color:#2D2D2D
+  class m top
+  class r,i mid
+  class u base

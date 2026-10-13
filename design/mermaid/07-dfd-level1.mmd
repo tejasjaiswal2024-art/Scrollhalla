@@ -1,0 +1,47 @@
+flowchart TB
+  R["Reader"]
+  P["RSS / Atom Publishers"]
+
+  p1(("1.0<br/>Authenticate<br/>User"))
+  p2(("2.0<br/>Manage<br/>Subscriptions"))
+  p3(("3.0<br/>Harvest &<br/>Normalise Feeds"))
+  p4(("4.0<br/>Serve<br/>Timeline"))
+  p5(("5.0<br/>Manage<br/>Bookmarks"))
+  p6(("6.0<br/>Export / Import<br/>OPML"))
+
+  d1[("D1 users")]
+  d2[("D2 subscriptions")]
+  d3[("D3 Redis timeline cache")]
+  d4[("D4 bookmarks")]
+  d5[("D5 articles")]
+
+  R -->|"email, password"| p1
+  p1 <-->|"user record / bcrypt hash"| d1
+  p1 -->|"JWT"| R
+
+  R -->|"feed URL, title"| p2
+  p2 -->|"new subscription"| d2
+
+  d2 -->|"feed URLs"| p3
+  P -->|"XML"| p3
+  p3 -->|"IFeedItem[] JSON, TTL 1800s"| d3
+
+  R -->|"GET /api/feed"| p4
+  d3 -->|"cached timeline"| p4
+  p4 -.->|"cache miss → on-demand harvest"| p3
+  p4 -->|"articles, latency, source"| R
+
+  R -->|"article id"| p5
+  p5 <--> d4
+  d5 -->|"article"| p5
+
+  R -->|"subscription list"| p6
+  d2 --> p6
+  p6 -->|".opml XML"| R
+
+  classDef ext fill:#FFFFFF,stroke:#2D2D2D,stroke-width:2px,color:#2D2D2D
+  classDef proc fill:#2D2D2D,stroke:#2D2D2D,color:#F4F1EA
+  classDef store fill:#E8E4D8,stroke:#8C6B40,color:#2D2D2D
+  class R,P ext
+  class p1,p2,p3,p4,p5,p6 proc
+  class d1,d2,d3,d4,d5 store

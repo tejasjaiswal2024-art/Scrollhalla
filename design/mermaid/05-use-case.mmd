@@ -1,0 +1,35 @@
+flowchart LR
+  reader(["👤 Reader"])
+  admin(["👤 Admin / DevOps"])
+  cron(["⏱ Cron Scheduler"])
+  ext(["🌐 RSS / Atom Publisher"])
+
+  subgraph sys["Scrollhalla System"]
+    uc1(["Register / Log in"])
+    uc2(["Complete onboarding<br/>(interest tags + seed feeds)"])
+    uc3(["Scroll Reels-style timeline"])
+    uc4(["Open article in Reader View"])
+    uc5(["Like / Bookmark article"])
+    uc6(["View saved articles"])
+    uc7(["Explore curated directory"])
+    uc8(["Subscribe via custom RSS URL"])
+    uc9(["Export / Import OPML"])
+    uc10(["Change theme / font size"])
+    uc11(["Harvest feeds into cache"])
+    uc12(["Parse RSS 2.0 / Atom 1.0"])
+    uc13(["Configure DB / Redis via env"])
+    uc14(["Deploy with Docker Compose"])
+  end
+
+  reader --- uc1 & uc2 & uc3 & uc5 & uc6 & uc7 & uc9 & uc10
+  uc3 -.->|"«extend»"| uc4
+  uc7 -.->|"«extend»"| uc8
+  cron --- uc11
+  uc11 -.->|"«include»"| uc12
+  uc12 --- ext
+  admin --- uc13 & uc14
+
+  classDef actor fill:#2D2D2D,stroke:#2D2D2D,color:#F4F1EA
+  classDef uc fill:#F4F1EA,stroke:#8C6B40,color:#2D2D2D
+  class reader,admin,cron,ext actor
+  class uc1,uc2,uc3,uc4,uc5,uc6,uc7,uc8,uc9,uc10,uc11,uc12,uc13,uc14 uc

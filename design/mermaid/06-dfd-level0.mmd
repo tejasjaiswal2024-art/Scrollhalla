@@ -1,0 +1,14 @@
+flowchart LR
+  R["Reader<br/>(external entity)"]
+  P["External RSS / Atom<br/>Publishers"]
+  S(("0<br/>Scrollhalla<br/>System"))
+
+  R -->|"credentials, interest tags,<br/>subscriptions, bookmarks, OPML file"| S
+  S -->|"JWT, ranked timeline,<br/>article text, OPML export"| R
+  S -->|"HTTP GET feed URL"| P
+  P -->|"RSS 2.0 / Atom 1.0 XML"| S
+
+  classDef ext fill:#FFFFFF,stroke:#2D2D2D,stroke-width:2px,color:#2D2D2D
+  classDef proc fill:#2D2D2D,stroke:#2D2D2D,color:#F4F1EA
+  class R,P ext
+  class S proc

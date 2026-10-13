@@ -47,3 +47,4 @@ Thumbs.db
 coverage/
 reports/
 .stryker-tmp/
+!docs-da3/**/*.pdf

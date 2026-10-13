@@ -1,0 +1,36 @@
+erDiagram
+  USERS ||--o{ SUBSCRIPTIONS : "subscribes to"
+  USERS ||--o{ BOOKMARKS : "saves"
+  SUBSCRIPTIONS ||--o{ ARTICLES : "publishes"
+  ARTICLES ||--o{ BOOKMARKS : "is saved as"
+
+  USERS {
+    uuid id PK
+    string email UK
+    string password "bcrypt hash"
+    json uiSettings "theme, density"
+    datetime createdAt
+    datetime updatedAt
+  }
+  SUBSCRIPTIONS {
+    uuid id PK
+    uuid userId FK "on delete cascade"
+    string feedUrl
+    string title
+    datetime createdAt
+  }
+  ARTICLES {
+    uuid id PK
+    uuid subscriptionId FK "on delete cascade"
+    string title
+    string link
+    string content "nullable"
+    datetime pubDate
+    datetime createdAt
+  }
+  BOOKMARKS {
+    uuid id PK
+    uuid userId FK
+    uuid articleId FK
+    datetime createdAt
+  }

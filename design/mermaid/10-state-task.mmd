@@ -1,0 +1,14 @@
+stateDiagram-v2
+  [*] --> TO_DO : POST /api/tasks
+  TO_DO --> IN_PROGRESS : PUT status
+  IN_PROGRESS --> IN_REVIEW : PUT status
+  IN_REVIEW --> IN_PROGRESS : changes requested
+  IN_REVIEW --> DONE : approved
+  DONE --> [*]
+  TO_DO --> [*] : DELETE
+  IN_PROGRESS --> [*] : DELETE
+
+  state TO_DO {
+    [*] --> Scored
+    Scored --> Scored : view / comment raises priorityScore
+  }
