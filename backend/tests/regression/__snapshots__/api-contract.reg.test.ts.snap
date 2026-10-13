@@ -1,0 +1,203 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`REG-01 response contracts GET /api/auth/me 1`] = `
+{
+  "body": {
+    "message": "string",
+    "success": "boolean",
+  },
+  "status": 401,
+}
+`;
+
+exports[`REG-01 response contracts GET /api/feed 1`] = `
+{
+  "body": {
+    "count": "number",
+    "data": [
+      {
+        "content": "string",
+        "feedType": "string",
+        "id": "string",
+        "link": "string",
+        "pubDate": "string",
+        "sourceTitle": "string",
+        "title": "string",
+      },
+    ],
+    "latencyMs": "string",
+    "source": "string",
+    "success": "boolean",
+  },
+  "status": 200,
+}
+`;
+
+exports[`REG-01 response contracts GET /api/smart-backlog 1`] = `
+{
+  "body": {
+    "algorithm": "string",
+    "count": "number",
+    "data": [
+      {
+        "assignee": "string",
+        "commentCount": "number",
+        "comments": [
+          {
+            "author": "string",
+            "id": "string",
+            "text": "string",
+            "timestamp": "string",
+          },
+        ],
+        "createdAt": "string",
+        "daysInBacklog": "number",
+        "description": "string",
+        "id": "string",
+        "moscow": "string",
+        "moscowWeight": "number",
+        "priorityScore": "number",
+        "status": "string",
+        "storyPoints": "number",
+        "title": "string",
+        "views": "number",
+      },
+    ],
+    "success": "boolean",
+  },
+  "status": 200,
+}
+`;
+
+exports[`REG-01 response contracts GET /api/sprint-risk 1`] = `
+{
+  "body": {
+    "data": {
+      "feedSource": "string",
+      "fetchedAt": "string",
+      "mitigationAdvice": "string",
+      "recentIncidents": [],
+      "riskLevel": "string",
+      "riskScorePercentage": "number",
+      "summary": "string",
+      "totalIncidentsAnalyzed": "number",
+    },
+    "success": "boolean",
+  },
+  "status": 200,
+}
+`;
+
+exports[`REG-01 response contracts GET /api/tasks 1`] = `
+{
+  "body": {
+    "count": "number",
+    "data": [
+      {
+        "assignee": "string",
+        "comments": [
+          {
+            "author": "string",
+            "id": "string",
+            "text": "string",
+            "timestamp": "string",
+          },
+        ],
+        "createdAt": "string",
+        "description": "string",
+        "id": "string",
+        "moscow": "string",
+        "status": "string",
+        "storyPoints": "number",
+        "title": "string",
+        "views": "number",
+      },
+    ],
+    "success": "boolean",
+  },
+  "status": 200,
+}
+`;
+
+exports[`REG-01 response contracts GET /api/tasks/TASK-0000 1`] = `
+{
+  "body": {
+    "message": "string",
+    "success": "boolean",
+  },
+  "status": 404,
+}
+`;
+
+exports[`REG-01 response contracts GET /api/tasks/TASK-101 1`] = `
+{
+  "body": {
+    "data": {
+      "assignee": "string",
+      "comments": [
+        {
+          "author": "string",
+          "id": "string",
+          "text": "string",
+          "timestamp": "string",
+        },
+      ],
+      "createdAt": "string",
+      "description": "string",
+      "id": "string",
+      "moscow": "string",
+      "status": "string",
+      "storyPoints": "number",
+      "title": "string",
+      "views": "number",
+    },
+    "success": "boolean",
+  },
+  "status": 200,
+}
+`;
+
+exports[`REG-01 response contracts GET /api/team 1`] = `
+{
+  "body": {
+    "count": "number",
+    "data": [
+      {
+        "assignedStoryPoints": "number",
+        "assignedTasksCount": "number",
+        "avatar": "string",
+        "capacityUtilizationPercentage": "number",
+        "id": "string",
+        "name": "string",
+        "role": "string",
+        "status": "string",
+        "velocity": "number",
+      },
+    ],
+    "success": "boolean",
+  },
+  "status": 200,
+}
+`;
+
+exports[`REG-01 response contracts GET /health 1`] = `
+{
+  "body": {
+    "service": "string",
+    "status": "string",
+    "timestamp": "string",
+  },
+  "status": 200,
+}
+`;
+
+exports[`REG-02 seed backlog ranking (golden master) orders the seeded tasks identically to the released build 1`] = `
+[
+  "TASK-102 MUST_HAVE",
+  "TASK-104 MUST_HAVE",
+  "TASK-101 MUST_HAVE",
+  "TASK-103 SHOULD_HAVE",
+  "TASK-105 COULD_HAVE",
+  "TASK-106 WONT_HAVE",
+]
+`;
