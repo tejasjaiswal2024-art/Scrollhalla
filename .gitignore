@@ -48,3 +48,4 @@ coverage/
 reports/
 .stryker-tmp/
 !docs-da3/**/*.pdf
+!docs-da3/**/*.docx

@@ -75,7 +75,7 @@
     <li>Version Management and System Building</li>
     <li>Screenshots of Developed Functionalities</li>
     <li>Tools and Technologies Used</li>
-    <li>Demo Plan</li>
+    <li>Project Demo Video</li>
   </ol>
   <p><b>Part B — Project Report</b></p>
   <ol start="6">
@@ -189,7 +189,7 @@ A mutant that no test notices <i>survives</i> and marks a weak spot.</p>
 <table>
   <thead><tr><th style="width:24%">Surviving mutants</th><th>What they revealed</th><th style="width:28%">Action</th></tr></thead>
   <tbody>
-    <tr><td>15 in <code>FeedParserFactory</code> RSS condition</td><td>Every mutation of the RSS branch survived because the branch was <b>unreachable</b>: whatever it matched already fell through to the RSS default.</td><td>Refactored the factory to a single Atom check (commit <code>5e71a78</code>).</td></tr>
+    <tr><td>15 in <code>FeedParserFactory</code> RSS condition</td><td>Every mutation of the RSS branch survived because the branch was <b>unreachable</b>: whatever it matched already fell through to the RSS default.</td><td>Refactored the factory to a single Atom check (commit <code>46bd884</code>).</td></tr>
     <tr><td>4 in <code>TaskController</code> moscow filter</td><td>The only filter test combined status and MoSCoW; every <code>IN_PROGRESS</code> seed task is <code>MUST_HAVE</code>, so the MoSCoW filter was never actually tested.</td><td>Added a MoSCoW-only filter test.</td></tr>
     <tr><td>5 in <code>authMiddleware</code></td><td>Tests checked status codes but never the response body, so emptying the error message went unnoticed.</td><td>Assert full 401 and 403 bodies.</td></tr>
     <tr><td>~20 in <code>SprintRiskService</code></td><td>The 7-day boundary (<code>&lt;=</code> vs <code>&lt;</code>), keyword precedence (“major” alone), and fallback incident fields were unasserted.</td><td>Boundary test with fake timers; keyword and fallback assertions.</td></tr>
@@ -294,22 +294,10 @@ feeds at the time of capture.</p>
 </table>
 
 <!-- ============================================================ -->
-<h1>5. Demo Plan</h1>
-<p>The live demo follows the reader's path through the system and then shows the engineering evidence behind it. It takes about 8 minutes.</p>
-<table>
-  <thead><tr><th style="width:6%">#</th><th style="width:36%">Step</th><th>What it demonstrates</th></tr></thead>
-  <tbody>
-    <tr><td>1</td><td><code>docker compose up --build</code></td><td>Builds the whole system with one command and starts all four containers.</td></tr>
-    <tr><td>2</td><td>Open <code>localhost:3000</code> and complete onboarding</td><td>Interest tags and seed channels (US #3).</td></tr>
-    <tr><td>3</td><td>Scroll the timeline; like, save and share an article</td><td>Reels-style feed served from Redis; overlay actions.</td></tr>
-    <tr><td>4</td><td>Open Focus Reader; change the font size</td><td>Distraction-free reading and the accessibility setting.</td></tr>
-    <tr><td>5</td><td>Explore → subscribe by custom URL; Saved tab</td><td>Feed discovery and bookmarks.</td></tr>
-    <tr><td>6</td><td>Settings → Export OPML; switch to E-Ink Dark</td><td>Feed portability and theming.</td></tr>
-    <tr><td>7</td><td><code>curl /api/feed</code> twice</td><td><code>ON_DEMAND_HARVEST</code> on the first call, <code>REDIS_CACHE_HIT</code> on the second (inverted read path).</td></tr>
-    <tr><td>8</td><td><code>npm test</code> and <code>npm run test:mutation</code></td><td>111 passing tests and a 96.5% mutation score.</td></tr>
-    <tr><td>9</td><td>GitHub → Actions tab, commit graph, tags</td><td>The CI run, branching strategy and releases.</td></tr>
-  </tbody>
-</table>
+<h1>5. Project Demo Video</h1>
+<p>The demo of Scrollhalla is submitted as a recorded video:</p>
+<div class="note"><p><b>Demo video:</b> <a href="https://drive.google.com/file/d/1dn1QklxfcMb5wBnSkqFD3aOlN3gmukKV/view?usp=sharing">https://drive.google.com/file/d/1dn1QklxfcMb5wBnSkqFD3aOlN3gmukKV/view?usp=sharing</a></p></div>
+<p>The video demonstrates the developed functionalities of the running system described in Sections 1–3.</p>
 
 <!-- ============================ PART B ============================ -->
 
